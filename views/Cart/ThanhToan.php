@@ -7,10 +7,11 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Thanh toan</title>
+        <title>Thanh toán</title>
         <?php include 'views/Layout/head.php' ?>
     </head>
     <body>
+        <p id="timeout" class="hidden" style="color:red; font-size: 1.5em">Xe hàng của bản đã hết lượt đang chuyển về trang chủ</p>
         <!--Header-->
         <?php include 'views/Layout/header.php' ?>
         <!--End Header-->
@@ -21,10 +22,10 @@ and open the template in the editor.
             <div class="row">
                 <div class="ch-box col-xs-6 left-col">
                     <div class="ch-box-inner">
-                        <form role="form" method="POST" action="/WebsiteBanHang/Cart/Dathang">
+                        <form role="form" method="POST" action="/WebsiteBanHang/Cart/Dathang" id="form1">
                             <h3>Bước 1: Nhập Email</h3>
                             <div class="form-group">
-                                <label for="email" class="mylabel">Email:</label>
+                                <label for="email" class="mylabel">Email (shop sẽ gửi mail đơn đặt hàng theo địa chỉ email này):</label>
                                 <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com">
                             </div>
                             <hr>
@@ -40,26 +41,50 @@ and open the template in the editor.
                             <div class="form-group">
                                 <label for="thanhpho" class="mylabel">Thành phố:</label><br/>
                                 <select id="thanhpho" name="thanhpho" class="selectpicker">
-                                    <option value="Hồ Chí Minh" selected="true">Hồ Chí Minh</option>
-                                    <option value="Hà Nội">Hà Nội</option>
+                                    <option value="" >Lựa chọn</option>
+                                    <?php
+                                    if (!empty($thanhpho)) {
+                                        foreach ($thanhpho as $thanhpho) {
+                                            ?>
+                                            <option value="<?php echo $thanhpho->getTentp(); ?>"><?php echo $thanhpho->getTentp(); ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="quan_huyen" class="mylabel">Quận-Huyện:</label><br/>
-                                <select id="quan_huyen" name="quan_huyen" class="selectpicker">
-                                    <option value="Bình Thạnh" selected="true">Bình Thạnh</option>
-                                    <option value="Gò Vấp">Gòạnh Vấp</option>
+                                <select id="quan_huyen" name="quan_huyen" class="selectpicker" onchange="setChiPhi()">
+                                    <option value="">Lựa chọn</option>
+                                    <?php
+                                    if (!empty($quanhuyen)) {
+                                        foreach ($quanhuyen as $quanhuyen) {
+                                            ?>
+                                            <option value="<?php echo $quanhuyen->getTenquanHuyen(); ?>|<?php echo $quanhuyen->getChiphigiaohang(); ?>"><?php echo $quanhuyen->getTenquanHuyen(); ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="phuong_xa" class="mylabel">Phường-Xã:</label><br/>
                                 <select id="phuong_xa" name="phuong_xa" class="selectpicker">
-                                    <option value="phường 5" selected="true">Phường 5</option>
-                                    <option value="phường 6">Phường 6</option>
+                                    <option value="">Lựa chọn</option>
+                                    <?php
+                                    if (!empty($phuongxa)) {
+                                        foreach ($phuongxa as $phuongxa) {
+                                            ?>
+                                            <option value="<?php echo $phuongxa->getTenpX(); ?>"><?php echo $phuongxa->getTenpX(); ?></option>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="dienthoai" class="mylabel">Điện thoại:</label>
+                                <label for="dienthoai" class="mylabel">Điện thoại(shop sẽ gọi theo số điện thoại này để kiểm tra):</label>
                                 <input type="text" id="dienthoai" name="dtthoai" class="form-control" placeholder="Số điện thoại">
                             </div>
                             <hr>
@@ -71,7 +96,7 @@ and open the template in the editor.
                                             <p>Thanh toán khi nhận hàng</p>
                                             <img src="/WebsiteBanHang/views/Contents/images/Icon_Wallet_sm.png" />
                                             <br/>
-                                            <input type="radio" checked="true" name="thanh_toan_khi_nhan_hang" class="my-radio">
+                                            <input type="radio" checked="true" name="cach_thanh_toan" value="khi nhận hàng" class="my-radio">
                                         </a>
                                     </li>
                                     <li>
@@ -79,13 +104,19 @@ and open the template in the editor.
                                             <p>Thanh toán qua thẻ ngân hàng</p>
                                             <img src="/WebsiteBanHang/views/Contents/images/icon_credit_card_sm.png">
                                             <br/>
-                                            <input type="radio" name="thanh_toan_qua_the_ngan_hang" class="my-radio">
+                                            <input type="radio" name="cach_thanh_toan" value="bằng thẻ" class="my-radio">
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                             <hr>
-                            <h3>Bước 4: Kiểm tra kỹ thông tin trên sau đó bấm nút đặt hàng</h3>
+                            <h3>Bước 4: Chọn cách giao hàng</h3>
+                            <label for="cach_giao_hang_nhanh">Nhanh trong vòng 24h (có giá)</label>
+                            <input type="radio" checked="true" id="cach_giao_hang_nhanh" name="cach_giao_hang" value="nhanh"><br/>
+                            <label for="cach_giao_hang_cham">Chậm (trong vòng 7 ngày miễn phí)</label>
+                            <input type="radio" id="cach_giao_hang_cham" name="cach_giao_hang" value="chậm"><br/>
+                            <hr>
+                            <h3>Bước 5: Kiểm tra kỹ thông tin trên sau đó bấm nút đặt hàng</h3>
                             <button type="submit" class="btn btn-success" id="btn-submit"><span class="glyphicon glyphicon-ok"></span> Đặt hàng</button>
                         </form>
                     </div>
@@ -104,15 +135,29 @@ and open the template in the editor.
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Non 2</td>
-                                    <td>3</td>
-                                    <td>50.000 VND</td>
-                                </tr>
+                                <?php
+                                if (isset($sanpham)) {
+                                    $tongtien = 0;
+                                    foreach ($sanpham as $sanpham) {
+                                        $tongtien += $sanpham->getGiasp();
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $sanpham->getTensanpham(); ?></td>
+                                            <td><?php echo $sanpham->getSoluong(); ?></td>
+                                            <td><?php echo $sanpham->getGiasp(); ?> VND</td>
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </tbody>
                         </table>
                         <hr>
-                        <p>Tạm tính <span style="float: right">50.000 VND</span></p>
+                        <?php if (isset($tongtien)) { ?>
+                            <p>Tạm tính <span style="float: right"><span id="tamtinh"><?php echo $tongtien; ?>.000</span> VND</span></p>
+                            <p>Phí giao hàng <span style="float: right"><span id="phigiaohang">0</span> VND</span></p>
+                            <p style="font-size: 1.5em">Thành tiền <span style="float: right; color: blue"><strong><span id="thanhtien">0</span> VND</strong></span></p>
+                                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -122,35 +167,60 @@ and open the template in the editor.
         <?php include 'views/Layout/footer.php' ?>
         <!--End Footer-->
         <script>
-            var lastPos = 0;
             $(".pttt").click(function (event) {
                 $(".my-radio").removeAttr("checked");
                 $(this).find('input[type="radio"]').prop("checked", true);
-                //lastPost = $(window).scrollTop();
-            });
-            /*
-             $(window).bind('hashchange',function(){
-             location.hash = '';
-             $(window).scrollTop(lastPos);
-             //alert(location.hash);
-             });*/
 
-            $('#btn-submit').on('click',function (e){
-               e.preventDefault();
-               var form = $(this).parent('form');
-               swal({
-                   title: "Bạn muốn đặt hàng ?",
-                   text: "Hãy kiểm tra kỹ lại thông tin!",
-                   type: "info",
-                   showCancelButton: true,
-                   confirmButtonClass: "btn btn-primary",
-                   confirmButtonText: "Vâng! đặt hàng",
-                   closeOnConfirm: true
-               },
-               function(){
-                   form.submit();
-               });
             });
+            function setChiPhi() {
+                if ($("#cach_giao_hang_nhanh").is(":checked")) {
+                    var chiphi = tinhPhiGiaoHang();
+                    var tamtinh = parseInt($("#tamtinh").html());
+                    tinhThanhTien(tamtinh, chiphi);
+                }
+            }
+
+            $("#cach_giao_hang_cham").click(function (e) {
+                $("#phigiaohang").html(0);
+                var tamtinh = parseInt($("#tamtinh").html());
+                tinhThanhTien(tamtinh, 0);
+            });
+
+            $("#cach_giao_hang_nhanh").click(function (e) {
+                var chiphi = tinhPhiGiaoHang();
+                var tamtinh = parseInt($("#tamtinh").html());
+                tinhThanhTien(tamtinh, chiphi);
+            });
+
+            function tinhPhiGiaoHang() {
+                var chiphi = $("#quan_huyen").val();
+                if (chiphi !== "") {
+                    chiphi = chiphi.split("|");
+                    chiphi = parseInt(chiphi[1]);
+                } else {
+                    chiphi = 0;
+                }
+                $("#phigiaohang").html(chiphi + ".000");
+                return chiphi;
+            }
+
+            function tinhThanhTien(tamtinh, chiphi) {
+                var thanhtien = tamtinh + chiphi;
+                $("#thanhtien").html(thanhtien + ".000");
+            }
+
+            $("#thanhtien").html(parseInt($("#tamtinh").html()) + ".000");
         </script>
+        <?php if (!isset($sanpham)) { ?>
+            <script type="text/javascript">
+                var timeout = window.setTimeout(function () {
+                    window.location = "http://localhost/WebsiteBanHang/Home";
+                }, 3000);
+                $(document).ready(function () {
+                    $("#timeout").removeClass("hidden");
+                });
+            </script>
+        <?php } ?>
+
     </body>
 </html>

@@ -927,9 +927,10 @@ abstract class Khachhang implements ActiveRecordInterface
 
             if ($this->phieudathangsScheduledForDeletion !== null) {
                 if (!$this->phieudathangsScheduledForDeletion->isEmpty()) {
-                    \Model\PhieudathangQuery::create()
-                        ->filterByPrimaryKeys($this->phieudathangsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
+                    foreach ($this->phieudathangsScheduledForDeletion as $phieudathang) {
+                        // need to save related object because we set the relation to null
+                        $phieudathang->save($con);
+                    }
                     $this->phieudathangsScheduledForDeletion = null;
                 }
             }
@@ -1755,7 +1756,7 @@ abstract class Khachhang implements ActiveRecordInterface
                 $this->phieudathangsScheduledForDeletion = clone $this->collPhieudathangs;
                 $this->phieudathangsScheduledForDeletion->clear();
             }
-            $this->phieudathangsScheduledForDeletion[]= clone $phieudathang;
+            $this->phieudathangsScheduledForDeletion[]= $phieudathang;
             $phieudathang->setKhachhang(null);
         }
 

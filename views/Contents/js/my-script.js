@@ -42,22 +42,59 @@ function deleteRow(rowid) {
     row.parentNode.removeChild(row);
 }
 
-function showAlert(action) {
-    if (action !== "") {
-        switch (action) {
-            case "thanhtoan":
-                swal({
-                    title: "Bạn muốn thanh toán ?",
-                    type: "info",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-primary",
-                    confirmButtonText: "Thanh toán",
-                    closeOnConfirm: false
-                },
-                function(){
-                    swal("Đã thanh toán!","Cửa hàng sẽ email phiếu giao hàng cho bạn trong vòng 24h nếu qua 24h mà vẫn không thấy email xin hãy report lại với cửa hàng","success");
-                });
-                break;
-        }
-    }
-}
+$().ready(function(){
+   $("#form1").validate({
+       rules:{
+           ten: "required",
+           email:{
+               required: true,
+               email: true,
+               remote: {
+                   url: "/WebsiteBanHang/controllers/check-email.php",
+                   type: "POST"
+               }
+           },
+           diachi: "required",
+           quan_huyen: "required",
+           thanhpho: "required",
+           phuong_xa: "required",
+           dtthoai: {
+               required: true,
+               maxlength: 10,
+               minlength: 10,
+               digits: true
+           }
+       },
+       submitHandler: function(form){
+           swal({
+               title: "Bạn muốn đặt hàng?",
+               text: "Xin hãy kiểm tra kỹ thông tin !, Sau khi đăt hàng xin hãy kiểm tra email, và shop sẽ gọi số điện thoại được nhập để kiểm tra",
+               type: "info",
+               showCancelButton: true,
+               confirmButtonClass: "btn btn-primary",
+               confirmButtonText: "Đặt hàng!",
+               closeOnConfirm: true
+           },function(){
+               form.submit();
+           });
+       },
+       messages:{
+           ten: "Bạn cần nhập tên người nhận",
+           email: {
+               required: "Shop cần email để gửi phiếu đặt hàng cho bạn",
+               email: "Email phải đúng định dạng examlpe@domain.com",
+               remote: "Đã có tài khoản tồn tại với email này xin hãy đăng nhập"
+           },
+           diachi: "cần nhập địa chỉ",
+           quan_huyen: "cần chọn quận-huyện",
+           thanhpho: "cần chọn thành phố",
+           phuong_xa: "cần chọn phường-xã",
+           dtthoai: {
+               required: "cần nhập điện thoại để shop có thể liên lạc để xác nhận đơn hàng",
+               maxlength: "nhập số điện thoại gồm 10 số",
+               minlength: "nhập số điện thoại gồm 10 số",
+               digits: "nhập số điện thoại gồm 10 số"
+           }
+       }
+   }); 
+});

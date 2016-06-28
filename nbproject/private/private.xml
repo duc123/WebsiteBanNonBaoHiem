@@ -5,11 +5,11 @@
         <group>
             <file>file:/home/duc/Apache_Root/WebsiteBanHang/test.php</file>
             <file>file:/home/duc/Apache_Root/WebsiteBanHang/controllers/cart.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Contents/js/my-script.js</file>
+            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Layout/nav_loaisp.php</file>
             <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Contents/css/mystyle.css</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/composer.json</file>
             <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Cart/DatHang.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Cart/ThanhToan.php</file>
+            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Home/index.php</file>
+            <file>file:/home/duc/Apache_Root/WebsiteBanHang/webmodel/schema.xml</file>
         </group>
     </open-files>
 </project-private>

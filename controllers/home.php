@@ -25,7 +25,7 @@ class HomeController extends BaseController {
         $trang_hien_tai = 0;
         
         session_start();
-        if (!isset($_SESSION['loaded'])) {
+        if (!isset($_SESSION['dssanpham'])) {
             //lấy danh sách loại sản phẩm
             $_SESSION['loai_sp'] = LoaispQuery::create()->find();
             //lấy danh sách sản phẩm
@@ -34,7 +34,6 @@ class HomeController extends BaseController {
             //tạo 1 mảng chứa các mảng sản phẩm
             $trang_sanpham = $this->Tao_sanpham_theo_trang($sotrang, $dssanpham->getArrayCopy());
             //lưu các giá trị đã tính vào session
-            $_SESSION['loaded'] = true;
             $_SESSION['trang_sanpham'] = $trang_sanpham;
             $_SESSION['so_trang'] = $sotrang;
             $_SESSION['dssanpham'] = $dssanpham;

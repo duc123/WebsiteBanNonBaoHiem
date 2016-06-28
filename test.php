@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -16,17 +16,19 @@ $mail->Host = 'smtp.mail.yahoo.com';
 $mail->Port = 465;
 $mail->SMTPSecure = 'ssl';
 $mail->SMTPAuth = true;
-$mail->Username = "hongducphannuyen@yahoo.com";
-$mail->Password = 'Khinguoiloncodon09061994';
-$mail->setFrom("hongducphannuyen@yahoo.com","test email");
-$mail->addReplyTo("hongducphannuyen@yahoo.com","hong duc");
-$mail->addAddress('hongduc_1994@yahoo.com','duc hong');
+$mail->Username = "banhangnhanvien@yahoo.com";
+$mail->Password = 'deancnpm13dth10';
+$mail->setFrom("banhangnhanvien@yahoo.com", "test email");
+$mail->addReplyTo("banhangnhanvien@yahoo.com", "hong duc");
+$mail->addAddress('hongducphannuyen@yahoo.com', 'duc hong');
 $mail->Subject = "Test mail";
 $mail->msgHTML("hello world");
 $mail->AltBody = "day la AltBody";
+$mail->CharSet = "UTF-8";
+$mail->Encoding = "base64";
 
-if(!$mail->send()){
+if (!$mail->send()) {
     echo 'co loi khi gui mail: ' . $mail->ErrorInfo;
-}else{
+} else {
     echo 'da gui thanh cong';
 }

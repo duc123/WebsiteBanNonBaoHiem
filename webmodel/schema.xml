@@ -8,7 +8,7 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
-  <table name="CTPDH" idMethod="native" phpName="Ctpdh">
+  <table name="CTPDH" idMethod="native" phpName="Ctpdh" isCrossRef="true">
     <column name="Sanpham_MaSanpham" phpName="SanphamMasanpham" type="INTEGER" primaryKey="true" required="true"/>
     <column name="PhieuDatHang_SoPhieu" phpName="PhieudathangSophieu" type="INTEGER" primaryKey="true" required="true"/>
     <column name="SoLuong" phpName="Soluong" type="INTEGER" required="true"/>
@@ -98,7 +98,7 @@
     <column name="Quan_Huyen" phpName="QuanHuyen" type="VARCHAR" size="30" required="true"/>
     <column name="Phuong_Xa" phpName="PhuongXa" type="VARCHAR" size="30" required="true"/>
     <column name="ChiPhi" phpName="Chiphi" type="DECIMAL" size="15" scale="3" required="true"/>
-    <column name="KhachHang_MaKH" phpName="KhachhangMakh" type="INTEGER" required="true"/>
+    <column name="KhachHang_MaKH" phpName="KhachhangMakh" type="INTEGER"/>
     <column name="TongTien" phpName="Tongtien" type="DECIMAL" size="15" scale="3" required="true"/>
     <column name="NgayGiao" phpName="Ngaygiao" type="TIMESTAMP"/>
     <foreign-key foreignTable="KhachHang" name="fk_PhieuDatHang_KhachHang1">

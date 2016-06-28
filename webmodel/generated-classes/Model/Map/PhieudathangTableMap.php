@@ -184,7 +184,7 @@ class PhieudathangTableMap extends TableMap
         $this->addColumn('Quan_Huyen', 'QuanHuyen', 'VARCHAR', true, 30, null);
         $this->addColumn('Phuong_Xa', 'PhuongXa', 'VARCHAR', true, 30, null);
         $this->addColumn('ChiPhi', 'Chiphi', 'DECIMAL', true, 15, null);
-        $this->addForeignKey('KhachHang_MaKH', 'KhachhangMakh', 'INTEGER', 'KhachHang', 'MaKH', true, null, null);
+        $this->addForeignKey('KhachHang_MaKH', 'KhachhangMakh', 'INTEGER', 'KhachHang', 'MaKH', false, null, null);
         $this->addColumn('TongTien', 'Tongtien', 'DECIMAL', true, 15, null);
         $this->addColumn('NgayGiao', 'Ngaygiao', 'TIMESTAMP', false, null, null);
     } // initialize()
@@ -208,6 +208,7 @@ class PhieudathangTableMap extends TableMap
     1 => ':SoPhieu',
   ),
 ), null, null, 'Ctpdhs', false);
+        $this->addRelation('Sanpham', '\\Model\\Sanpham', RelationMap::MANY_TO_MANY, array(), null, null, 'Sanphams');
     } // buildRelations()
 
     /**

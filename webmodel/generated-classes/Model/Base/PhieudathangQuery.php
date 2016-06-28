@@ -736,7 +736,7 @@ abstract class PhieudathangQuery extends ModelCriteria
      *
      * @return $this|ChildPhieudathangQuery The current query, for fluid interface
      */
-    public function joinKhachhang($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinKhachhang($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Khachhang');
@@ -771,7 +771,7 @@ abstract class PhieudathangQuery extends ModelCriteria
      *
      * @return \Model\KhachhangQuery A secondary query class using the current class as primary query
      */
-    public function useKhachhangQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useKhachhangQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinKhachhang($relationAlias, $joinType)
@@ -849,6 +849,23 @@ abstract class PhieudathangQuery extends ModelCriteria
         return $this
             ->joinCtpdh($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Ctpdh', '\Model\CtpdhQuery');
+    }
+
+    /**
+     * Filter the query by a related Sanpham object
+     * using the CTPDH table as cross reference
+     *
+     * @param Sanpham $sanpham the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildPhieudathangQuery The current query, for fluid interface
+     */
+    public function filterBySanpham($sanpham, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useCtpdhQuery()
+            ->filterBySanpham($sanpham, $comparison)
+            ->endUse();
     }
 
     /**

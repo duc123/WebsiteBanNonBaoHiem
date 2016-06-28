@@ -196,6 +196,7 @@ class SanphamTableMap extends TableMap
     1 => ':MaSanpham',
   ),
 ), null, null, 'Ctpdhs', false);
+        $this->addRelation('Phieudathang', '\\Model\\Phieudathang', RelationMap::MANY_TO_MANY, array(), null, null, 'Phieudathangs');
     } // buildRelations()
 
     /**

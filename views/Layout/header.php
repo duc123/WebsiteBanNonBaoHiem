@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-lg-2 col-sm-3 col-md-2 col-xs-12">
                 <!-- Header Logo -->
-                <a class="logo" title="Safety" href="/"><img alt="Safety" src="/WebsiteBanHang/views/Contents/images/logo1.png"></a>
+                <a class="logo" title="Safety" href="/"><img alt="Safety" src="/WebsiteBanHang/views/Contents/images/logo2_sm.png"></a>
                 <!-- End Header Logo -->
             </div>
             <div class="col-lg-6 col-sm-5 col-md-6 col-xs-12">

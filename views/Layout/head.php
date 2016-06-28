@@ -23,8 +23,10 @@
 <script src='/WebsiteBanHang/views/Contents/js/owl-carousel.js' type='text/javascript'></script>
 <script src='/WebsiteBanHang/views/Contents/js/jquery-fancybox.js' type='text/javascript'></script>
 <script src='/WebsiteBanHang/views/Contents/js/api-jquery.js' type='text/javascript'></script>
-<script src="/WebsiteBanHang/views/Contents/js/my-script.js" type="text/javascript"></script>
 <script src="/WebsiteBanHang/views/Contents/js/bootstrap-table.min.js" type="text/javascript"></script>
 <script src="/WebsiteBanHang/views/Contents/js/bootstrap-table-locale-all.min.js" type="text/javascript"></script>
 <script src="/WebsiteBanHang/views/Contents/js/sweetalert.min.js" type="text/javascript"></script>
 <script src="/WebsiteBanHang/views/Contents/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="/WebsiteBanHang/views/Contents/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/WebsiteBanHang/views/Contents/js/additional-methods.min.js" type="text/javascript"></script>
+<script src="/WebsiteBanHang/views/Contents/js/my-script.js" type="text/javascript"></script>

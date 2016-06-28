@@ -135,6 +135,7 @@ class CtpdhTableMap extends TableMap
         $this->setClassName('\\Model\\Ctpdh');
         $this->setPackage('Model');
         $this->setUseIdGenerator(false);
+        $this->setIsCrossRef(true);
         // columns
         $this->addForeignPrimaryKey('Sanpham_MaSanpham', 'SanphamMasanpham', 'INTEGER' , 'Sanpham', 'MaSanpham', true, null, null);
         $this->addForeignPrimaryKey('PhieuDatHang_SoPhieu', 'PhieudathangSophieu', 'INTEGER' , 'PhieuDatHang', 'SoPhieu', true, null, null);

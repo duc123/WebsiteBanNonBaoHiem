@@ -622,7 +622,7 @@ abstract class KhachhangQuery extends ModelCriteria
      *
      * @return $this|ChildKhachhangQuery The current query, for fluid interface
      */
-    public function joinPhieudathang($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinPhieudathang($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Phieudathang');
@@ -657,7 +657,7 @@ abstract class KhachhangQuery extends ModelCriteria
      *
      * @return \Model\PhieudathangQuery A secondary query class using the current class as primary query
      */
-    public function usePhieudathangQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function usePhieudathangQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinPhieudathang($relationAlias, $joinType)

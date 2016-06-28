@@ -768,6 +768,23 @@ abstract class SanphamQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query by a related Phieudathang object
+     * using the CTPDH table as cross reference
+     *
+     * @param Phieudathang $phieudathang the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSanphamQuery The current query, for fluid interface
+     */
+    public function filterByPhieudathang($phieudathang, $comparison = Criteria::EQUAL)
+    {
+        return $this
+            ->useCtpdhQuery()
+            ->filterByPhieudathang($phieudathang, $comparison)
+            ->endUse();
+    }
+
+    /**
      * Exclude object from result
      *
      * @param   ChildSanpham $sanpham Object to remove from the list of results

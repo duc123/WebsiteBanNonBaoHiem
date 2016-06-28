@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Form Validation using jQuery - Demo</title>
+        <script type="text/javascript" src="/WebsiteBanHang/views/Contents/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/WebsiteBanHang/views/Contents/js/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="/WebsiteBanHang/views/Contents/js/my-script.js"></script>
+        <style>
+            label.error{
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <form id="commentForm" method="get" action="">
+            <fieldset>
+                <legend>Comment Form</legend>
+                <p>
+                    <label for="cname">Name</label>
+                    <input id="cname" name="name" type="text" minlength="2" required/>
+                </p>
+                <p>
+                    <input type="submit" value="Submit" class="submit">
+                </p>
+            </fieldset>
+        </form>
+    </body>
+</html>

@@ -44,7 +44,7 @@
                                 ?>
                                 <div class="col-sm-4 col-lg-4 col-md-4">
                                     <div class="thumbnail">
-                                        <img src="http://placehold.it/800x600" alt="">
+                                        <img src="/WebsiteBanHang/views/Contents/images/<?php echo $sanpham->getHinhanh(); ?>" alt="">
                                         <div class="caption">
                                             <h4 class="pull-right"><?php echo $sanpham->getGiasp(); ?> VND</h4>
                                             <h4><a href="/WebsiteBanHang/Home/Sanpham/<?php echo $sanpham->getMasanpham(); ?>"><?php echo $sanpham->getTensanpham(); ?></a>
