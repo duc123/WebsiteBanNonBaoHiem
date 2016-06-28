@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/test.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/controllers/cart.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Layout/nav_loaisp.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Contents/css/mystyle.css</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Cart/DatHang.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/views/Home/index.php</file>
-            <file>file:/home/duc/Apache_Root/WebsiteBanHang/webmodel/schema.xml</file>
+            <file>file:/home/duc/Apache_Root/WebsiteBanHang/webmodel/generated-conf/config.php</file>
+            <file>file:/home/duc/Apache_Root/WebsiteBanHang/webmodel/propel.yml</file>
+            <file>file:/home/duc/Apache_Root/WebsiteBanHang/classes/setup.php</file>
         </group>
     </open-files>
 </project-private>
