@@ -1,5 +1,7 @@
 <?php
+if(isset($_SESSION['danhmuc'])){
 $danh_muc = $_SESSION['danhmuc'];
+}
 ?>
 
 <nav>
@@ -29,7 +31,7 @@ $danh_muc = $_SESSION['danhmuc'];
                                     </li>
 
                                     <?php
-                                    if (true) {
+                                    if (isset($danh_muc)) {
                                         foreach ($danh_muc as $dm) {
                                             ?>
                                             <li class="level0 level-top parent">
@@ -63,7 +65,7 @@ $danh_muc = $_SESSION['danhmuc'];
                 <li class="level0"><a href="/WebsiteBanHang/Home/Gioithieu/"><span>Giới thiệu</span> </a>
 
                     <?php
-                    if (true) {
+                    if (isset($danh_muc)) {
                         foreach ($danh_muc as $dm) {
                             ?>
                         <li class="level0"><a href="/WebsiteBanHang/Home/Danhmuc/<?php echo $dm->getMadm(); ?>"><span><?php echo $dm->getTendm(); ?></span> </a>
