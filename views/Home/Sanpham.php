@@ -19,24 +19,25 @@
     
     <!--Slider-->
     
-    <?php include_once 'views/Layout/banner.php'; ?>
+    
 
     <!-- Page Content -->
     <div class="container">
 
         <div class="row">
 
-            <?php include_once 'views/Layout/nav_loaisp.php'; ?>
+            
 
-            <div class="col-md-9">
+            <div class="col-md-12" style="margin-top: 1em">
 
                 <div class="thumbnail">
-                    <img class="img-responsive" src="http://placehold.it/800x300" alt="">
-                    <div class="caption-full">
+                    <img class="img-responsive" src="http://placehold.it/1000x400" alt="">
+                    <div class="caption-full" style="margin: 1em">
                         <h4 class="pull-right"><?php echo $sp->getGiasp(); ?> VND</h4>
                         <h4><a href="#"><?php echo $sp->getTensanpham(); ?></a>
                         </h4>
                         <p><?php echo $sp->getThongtin(); ?></p>
+                        <p><a href="" class="btn btn-info" style="visibility:hidden;"></a> <a href="javascript:;" onclick="cartAction('add', '<?php echo $sp->getMasanpham(); ?>')" class="btn btn-primary btn-xs pull-right" style="font-size: 1.2em" role="button"><strong>Vào giỏ</strong></a></p>
                     </div>
                 </div>
 

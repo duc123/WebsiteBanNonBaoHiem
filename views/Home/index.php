@@ -33,9 +33,9 @@
 
                 <div class="row">
 
-                    <?php include 'views/Layout/nav_loaisp.php'; ?>
+                    
 
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <?php if(!empty($trang_sanpham)) { ?>
                         <div class="row">
                         
@@ -50,7 +50,7 @@
                                             <h4><a href="/WebsiteBanHang/Home/Sanpham/<?php echo $sanpham->getMasanpham(); ?>"><?php echo $sanpham->getTensanpham(); ?></a>
                                             </h4>
                                             <p><?php echo $sanpham->getThongtin(); ?></p>
-                                            <p><a href="" class="btn btn-info" style="visibility:hidden;"></a> <a href="javascript:;" onclick="cartAction('add', '<?php echo $sanpham->getMasanpham(); ?>')" class="btn btn-primary btn-xs pull-right" role="button">Vao gio</a></p>
+                                            <!--<p><a href="" class="btn btn-info" style="visibility:hidden;"></a> <a href="javascript:;" onclick="cartAction('add', '<?php echo $sanpham->getMasanpham(); ?>')" class="btn btn-primary btn-xs pull-right" role="button">Vao gio</a></p>-->
                                         </div>
                                     </div>
                                 </div>

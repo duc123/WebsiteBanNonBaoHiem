@@ -1,3 +1,7 @@
+<?php
+$danh_muc = $_SESSION['danhmuc'];
+?>
+
 <nav>
     <div class="container">
         <div class="nav-inner">
@@ -24,12 +28,17 @@
                                         <a href="/gioi-thieu" class="level-top"> <span>Giới thiệu</span> </a>
                                     </li>
 
-                                    <?php if(isset($danhmuc)){ 
-                                        foreach($danhmuc as $danhmuc){?>
-                                        <li class="level0 level-top parent">
-                                        <a href="/WebsiteBanHang/Home/Danhmuc/<?php echo $danhmuc->getMadm(); ?>" class="level-top"> <span><?php echo $danhmuc->getTendm(); ?></span> </a>
-                                        </li>        
-                                        <?php } }?>
+                                    <?php
+                                    if (true) {
+                                        foreach ($danh_muc as $dm) {
+                                            ?>
+                                            <li class="level0 level-top parent">
+                                                <a href="/WebsiteBanHang/Home/Danhmuc/<?php echo $dm->getMadm(); ?>" class="level-top"> <span><?php echo $dm->getTendm(); ?></span> </a>
+                                            </li>        
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                     <li class="level0 level-top parent">
                                         <a href="/lien-he" class="level-top"> <span>Liên hệ</span> </a>
                                     </li>
@@ -43,7 +52,7 @@
                 <!--navmenu-->
             </div>
             <!--End mobile-menu -->
-            <a class="logo-small" title="Công nghệ số Accent" href="/"><img alt="Công nghệ số Accent" src="/WebsiteBanHang/views/Contents/images/logo2_sm.png"></a>
+            <a class="logo-small" title="Công nghệ số Accent" href="/WebsiteBanHang/Home/"><img alt="Safety" src="/WebsiteBanHang/views/Contents/images/logo2_sm.png"></a>
             <ul id="nav" class="hidden-xs">
 
 
@@ -51,16 +60,20 @@
 
 
 
-                <li class="level0"><a href="/gioi-thieu"><span>Giới thiệu</span> </a>
+                <li class="level0"><a href="/WebsiteBanHang/Home/Gioithieu/"><span>Giới thiệu</span> </a>
 
-                    <?php if(isset($danhmuc)){ 
-                                        foreach($danhmuc as $danhmuc){?>
-                                        <li class="level0 level-top parent">
-                                        <a href="/WebsiteBanHang/Home/Danhmuc/<?php echo $danhmuc->getMadm(); ?>" class="level-top"> <span><?php echo $danhmuc->getTendm(); ?></span> </a>
-                                        </li>        
-                                        <?php } }?>
+                    <?php
+                    if (true) {
+                        foreach ($danh_muc as $dm) {
+                            ?>
+                        <li class="level0"><a href="/WebsiteBanHang/Home/Danhmuc/<?php echo $dm->getMadm(); ?>"><span><?php echo $dm->getTendm(); ?></span> </a>
+                            <?php
+                        }
+                    }
+                    ?>
+                    
 
-                <li class="level0"><a href="/lien-he"><span>Liên hệ</span> </a>
+                <li class="level0"><a href="/WebsiteBanHang/Home/Lienhe"><span>Liên hệ</span> </a>
 
 
 

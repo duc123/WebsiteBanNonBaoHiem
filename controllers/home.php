@@ -3,8 +3,10 @@
 //include_once $_SERVER['DOCUMENT_ROOT'] . '/WebsiteBanHang/setup.php';
 //include_once 'classes/setup.php';
 require 'classes/setup.php';
+
 use Model\LoaispQuery;
 use Model\SanphamQuery;
+use Model\DanhmucQuery;
 
 /**
  * Home Controller cho Home View
@@ -13,7 +15,7 @@ class HomeController extends BaseController {
 
     //số sản phẩm dành cho 1 trang
     const SO_SP_1_TRANG = 6;
-    
+
     public function __construct($action, $urlvalues) {
         parent::__construct($action, $urlvalues);
     }
@@ -23,11 +25,12 @@ class HomeController extends BaseController {
      */
     protected function index() {
         $trang_hien_tai = 0;
-        
+
         session_start();
         if (!isset($_SESSION['dssanpham'])) {
             //lấy danh sách loại sản phẩm
             $_SESSION['loai_sp'] = LoaispQuery::create()->find();
+            $_SESSION['danhmuc'] = DanhmucQuery::create()->find();
             //lấy danh sách sản phẩm
             $dssanpham = SanphamQuery::create()->find();
             $sotrang = $this->so_trang($dssanpham->count(), self::SO_SP_1_TRANG);
@@ -44,7 +47,7 @@ class HomeController extends BaseController {
                 $trang_hien_tai = empty($this->urlvalues['id']) ? 0 : $this->urlvalues['id'] - 1;
             }
         }
-        
+
         //tao view
         include 'views/Home/index.php';
     }
@@ -75,10 +78,34 @@ class HomeController extends BaseController {
 
         return $trang_sanpham;
     }
-    
-    public function sanpham(){
+
+    public function sanpham() {
         $sp = SanphamQuery::create()->findPk($this->urlvalues['id']);
         include 'views/Home/Sanpham.php';
+    }
+
+    public function danhmuc() {
+        session_start();
+        $idloai = filter_input(INPUT_GET, 'l');
+        $iddm = $this->urlvalues['id'];
+        if($iddm != null){
+            $_SESSION['id-danhmuc'] = $iddm;
+        }
+        $danhmuc = DanhmucQuery::create()->findPk($_SESSION['id-danhmuc']);
+        $loaisp = $danhmuc->getLoaisps()->getArrayCopy('Maloaisp');
+        $_SESSION['loai_sp'] = $loaisp;
+        $sanpham = [];
+        if ($idloai != null) {
+            $l = $loaisp[$idloai];
+            $sanpham = $l->getSanphams();
+        } else {
+            foreach ($loaisp as $loaisp) {
+                $sanpham = array_merge($sanpham, $loaisp->getSanphams()->getArrayCopy());
+            }
+        }
+//        $sotrang = $this->so_trang(count($sanpham), self::SO_SP_1_TRANG); 
+//        $trang_sanpham = $this->Tao_sanpham_theo_trang($sotrang, $sanpham);
+        include 'views/Home/Danhmuc.php';
     }
 
 }
