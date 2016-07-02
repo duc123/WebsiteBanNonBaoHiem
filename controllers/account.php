@@ -24,24 +24,42 @@ class AccountController extends BaseController {
     }
 
     public function login() {
+        $error = 0;
         $post = filter_input_array(INPUT_POST);
-        if ($post == null) {
-            $title = "Đăng nhập";
-            $action = "Login";
-            include 'views/Account/Account.php';
-        } else {
-            $khachhang = KhachhangQuery::create()->findByEmail($post['InputEmail'])->getFirst();
-            if ($post['InputPassWord'] == $khachhang->getPassword()) {
+        if($post['email'] === "" && $post['password'] === ""){
+            $array["success"] = "error";
+        }else{
+            $khach = KhachhangQuery::create()->findByEmail($post['email'])->getFirst();
+            // nếu email khách không tồn tại
+            if(empty($khach)){
+                $error += 1;
+            }else{
+                // nếu tồn tại thì kiểm tra pass
+                if(!password_verify($post['password'], $khach->getPassword())){
+                    $error += 1;
+                }
+            }
+            
+            if(empty($error)){
                 session_start();
-                $_SESSION['user'] = $khachhang;
-                header('Location: /WebsiteBanHang/Home');
-            } else {
-                $error = true;
-                $title = "Đăng nhập";
-                $action = "Login";
-                include 'views/Account/Account.php';
+                $array["success"] = true;
+                $_SESSION['user-email'] = $post['email'];
+                if(isset($post['remember'])){
+                        $_COOKIE['user-email'] = $post['email'];
+                        
+                    }
+            }else{
+                $array["success"] = false;
             }
         }
+        
+        echo json_encode($array);
+    }
+    
+    public function logout(){
+        session_start();
+        unset($_SESSION['user-email']);
+        header('Location: /WebsiteBanHang/Home');
     }
 
 }

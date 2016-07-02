@@ -41,7 +41,7 @@
 
                 <div class="signup"><a title="Đăng ký" href="/WebsiteBanHang/Account/Register"><span>Đăng ký ngay</span></a></div>
                 <span class="or"> hoặc </span>
-                <?php if (!isset($_SESSION['user'])) { ?>
+                <?php if (!isset($_SESSION['user-email'])) { ?>
                     <div class="login"><a id="modal_trigger" title="Đăng nhập" href="#modal"><span id="dangnhap">Đăng nhập</span></a></div>
                 <?php } else { ?>
                     <div class="login"><a title="Đăng xuất" href="/WebsiteBanHang/Account/Logout"><span id="dangxuat">Đăng xuất</span></a></div>
@@ -59,44 +59,59 @@
             <section class="popupBody">
                 <!-- Username & Password Login form -->
                 <div class="user_login">
-                    <form>
-                        <label>Email / Username</label>
-                        <input type="text" />
+                    <label id="invalid" class="error hidden">Đăng nhập thất bại, bạn nhập sai thông tin hoặc chưa đăng ký</label>
+                    <label id="error" class="error hidden">Bạn cần nhập Email với Password đầy đủ</label>
+                    <form method="POST" action="/WebsiteBanHang/Account/Login" id="formAjax">
+                        <label>Email</label>
+                        <input type="email" name="email" required/>
                         <br />
 
                         <label>Password</label>
-                        <input type="password" />
+                        <input type="password" name="password" required/>
                         <br />
 
-                        <div class="checkbox">
-                            <input id="remember" type="checkbox" />
+                        <div class="form-group">
+                            <input id="remember" type="checkbox" name="remember"/>
                             <label for="remember">Remember me on this computer</label>
                         </div>
 
-                        <div class="action_btns">
-                            <div class="one_half"><a href="#" class="btn_popup back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-                            <div class="one_half last"><a href="#" class="btn_popup btn_red">Login</a></div>
+                        <div class="action_btns" style="padding-top: 1.2em;">
+                            <div class="one_half"><a href="#" class="forgot_password">Forgot password?</a></div>
+                            <div class="one_half last"><a href="javascript:;" id="submit" class="btn_popup btn_red">Login</a></div>
                         </div>
                     </form>
-
-                    <a href="#" class="forgot_password">Forgot password?</a>
+                    
                 </div>
 
             </section>
         </div>
     </div>
-    
-    
+
+
 
 
     <script type="text/javascript">
         $("#modal_trigger").leanModal({top: 200, overlay: 0.6, closeButton: ".modal_close"});
 
-        $(function () {
-            // Calling Login Form
-            $(".user_login").show();
+        $("#submit").click(function () {
+            $("#formAjax").ajaxSubmit({
+                dataType: 'json',
+                success: function(data){
+                    //alert(data.success);
+                    if(data.success === false){
+                        $("#invalid").removeClass("hidden");
+                    }else{
+                        if(data.success === "error"){
+                            $("#error").removeClass("hidden");
+                        }else{
+                            location.reload();
+                        }
+                    }
+                }
+            });
+        });
 
-        })
+
     </script>
 
 </header>

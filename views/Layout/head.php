@@ -31,3 +31,4 @@
 <script src="/WebsiteBanHang/views/Contents/js/additional-methods.min.js" type="text/javascript"></script>
 <script src="/WebsiteBanHang/views/Contents/js/my-script.js" type="text/javascript"></script>
 <script src="/WebsiteBanHang/views/Contents/js/jquery.leanModal.min.js" type="text/javascript"></script>
+<script src="/WebsiteBanHang/views/Contents/js/jquery.form.js" type="text/javascript"></script>
