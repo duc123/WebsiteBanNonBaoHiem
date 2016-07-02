@@ -22,9 +22,9 @@ and open the template in the editor.
 
                         <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Thông tin bắt buộc</strong></div>
                         <div class="form-group">
-                            <label for="InputEmail">Nhập Email</label>
+                            <label for="email">Nhập Email</label>
                             <div class="input-group">
-                                <input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Enter Email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                             </div>
                         </div>
@@ -64,7 +64,7 @@ and open the template in the editor.
             $(document).ready(function () {
                 $("#formdangky").validate({
                     rules: {
-                        InputEmail: {
+                        email: {
                             required: true,
                             email: true,
                             remote: {
@@ -79,7 +79,7 @@ and open the template in the editor.
                         }
                     },
                     messages: {
-                        InputEmail: {
+                        email: {
                             required: "Thông tin bắt buộc",
                             remote: "Email đã có tài khoản xin hãy đăng nhập",
                             email: "Email phải đúng định dạng vd: example@domain.com"
