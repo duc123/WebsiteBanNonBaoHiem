@@ -42,15 +42,61 @@
                 <div class="signup"><a title="Đăng ký" href="/WebsiteBanHang/Account/Register"><span>Đăng ký ngay</span></a></div>
                 <span class="or"> hoặc </span>
                 <?php if (!isset($_SESSION['user'])) { ?>
-                    <div class="login"><a title="Đăng nhập" href="/WebsiteBanHang/Account/Login"><span id="dangnhap">Đăng nhập</span></a></div>
+                    <div class="login"><a id="modal_trigger" title="Đăng nhập" href="#modal"><span id="dangnhap">Đăng nhập</span></a></div>
                 <?php } else { ?>
                     <div class="login"><a title="Đăng xuất" href="/WebsiteBanHang/Account/Logout"><span id="dangxuat">Đăng xuất</span></a></div>
                 <?php } ?>
             </div>
             <!-- End Top Cart -->
         </div>
+        <!--Pop up login-->
+        <div id="modal" class="popupContainer" style="display:none;">
+            <header class="popupHeader">
+                <span class="header_title">Login</span>
+                <span class="modal_close"><i class="fa fa-times"></i></span>
+            </header>
+
+            <section class="popupBody">
+                <!-- Username & Password Login form -->
+                <div class="user_login">
+                    <form>
+                        <label>Email / Username</label>
+                        <input type="text" />
+                        <br />
+
+                        <label>Password</label>
+                        <input type="password" />
+                        <br />
+
+                        <div class="checkbox">
+                            <input id="remember" type="checkbox" />
+                            <label for="remember">Remember me on this computer</label>
+                        </div>
+
+                        <div class="action_btns">
+                            <div class="one_half"><a href="#" class="btn_popup back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
+                            <div class="one_half last"><a href="#" class="btn_popup btn_red">Login</a></div>
+                        </div>
+                    </form>
+
+                    <a href="#" class="forgot_password">Forgot password?</a>
+                </div>
+
+            </section>
+        </div>
     </div>
+    
+    
 
 
+    <script type="text/javascript">
+        $("#modal_trigger").leanModal({top: 200, overlay: 0.6, closeButton: ".modal_close"});
+
+        $(function () {
+            // Calling Login Form
+            $(".user_login").show();
+
+        })
+    </script>
 
 </header>

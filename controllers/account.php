@@ -10,15 +10,16 @@ class AccountController extends BaseController {
     public function register() {
         $post = filter_input_array(INPUT_POST);
         if ($post == null) {
-            $title = "Đăng ký";
-            $action = "Register";
             include 'views/Account/Account.php';
         } else {
             $kh = new Khachhang();
             $kh->setEmail($post['InputEmail']);
-            $kh->setPassword(crypt($post['InputPassWord']));
+            $pass = $post['InputPassWord'];
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
+            $kh->setPassword($hash);
             $kh->save();
-            header('Location: /WebsiteBanHang/Home');
+            $success = true;
+            include 'views/Account/Account.php';
         }
     }
 
