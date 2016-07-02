@@ -27,12 +27,17 @@ class HomeController extends BaseController {
         $trang_hien_tai = 0;
 
         session_start();
-        if (!isset($_SESSION['dssanpham'])) {
+        if (true) {
             //lấy danh sách loại sản phẩm
             $_SESSION['loai_sp'] = LoaispQuery::create()->find();
             $_SESSION['danhmuc'] = DanhmucQuery::create()->find();
             //lấy danh sách sản phẩm
             $dssanpham = SanphamQuery::create()->find();
+            
+            $q = filter_input(INPUT_GET, 'query');
+            if($q != null){
+                $dssanpham = SanphamQuery::create()->findByTensanpham($q);
+            }
             $sotrang = $this->so_trang($dssanpham->count(), self::SO_SP_1_TRANG);
             //tạo 1 mảng chứa các mảng sản phẩm
             $trang_sanpham = $this->Tao_sanpham_theo_trang($sotrang, $dssanpham->getArrayCopy());

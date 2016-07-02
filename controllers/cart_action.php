@@ -18,16 +18,17 @@ if ($post) {
             } else {
                 $dssanpham = $_SESSION['dssanpham'];
             }
+            $sl = filter_input(INPUT_POST, 'sl');
             $sanphamById = $dssanpham->getArrayCopy("Masanpham");
             $sanpham = $sanphamById[$id];
-            $sanpham->setSoluong(1);
+            $sanpham->setSoluong($sl);
             if (empty($_SESSION['cart-items'])) {
                 $array[$sanpham->getMasanpham()] = $sanpham;
                 $_SESSION['cart-items'] = $array;
             } else {
                 if (array_key_exists($sanpham->getMasanpham(), $_SESSION['cart-items'])) {
                     $sp = $_SESSION['cart-items'][$sanpham->getMasanpham()];
-                    $sp->setSoluong($sp->getSoluong() + 1);
+                    $sp->setSoluong($sl);
                 } else {
                     $_SESSION['cart-items'][$sanpham->getMasanpham()] = $sanpham;
                 }

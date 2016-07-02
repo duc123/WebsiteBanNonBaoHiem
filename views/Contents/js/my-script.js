@@ -1,9 +1,10 @@
 function cartAction(action, sanpham_id) {
     var queryString = "";
+    var sl = $("#soluong").val();
     if (action !== "") {
         switch (action) {
             case "add":
-                queryString = 'action=' + action + '&id=' + sanpham_id;
+                queryString = 'action=' + action + '&id=' + sanpham_id + '&sl=' + sl;
                 break;
             case "remove":
                 queryString = 'action=' + action + '&id=' + sanpham_id;
@@ -96,5 +97,6 @@ $().ready(function(){
                digits: "nhập số điện thoại gồm 10 số"
            }
        }
-   }); 
+   });
 });
+
