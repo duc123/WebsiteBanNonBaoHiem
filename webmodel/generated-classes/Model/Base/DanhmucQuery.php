@@ -310,9 +310,6 @@ abstract class DanhmucQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tendm)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tendm)) {
-                $tendm = str_replace('*', '%', $tendm);
-                $comparison = Criteria::LIKE;
             }
         }
 

@@ -325,9 +325,6 @@ abstract class LoaispQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tenloaisp)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tenloaisp)) {
-                $tenloaisp = str_replace('*', '%', $tenloaisp);
-                $comparison = Criteria::LIKE;
             }
         }
 

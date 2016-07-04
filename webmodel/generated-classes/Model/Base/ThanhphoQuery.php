@@ -310,9 +310,6 @@ abstract class ThanhphoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tentp)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tentp)) {
-                $tentp = str_replace('*', '%', $tentp);
-                $comparison = Criteria::LIKE;
             }
         }
 

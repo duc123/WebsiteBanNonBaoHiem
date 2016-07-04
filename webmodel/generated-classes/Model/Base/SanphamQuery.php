@@ -355,9 +355,6 @@ abstract class SanphamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tensanpham)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tensanpham)) {
-                $tensanpham = str_replace('*', '%', $tensanpham);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -384,9 +381,6 @@ abstract class SanphamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($hinhanh)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $hinhanh)) {
-                $hinhanh = str_replace('*', '%', $hinhanh);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -454,9 +448,6 @@ abstract class SanphamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($donvitinh)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $donvitinh)) {
-                $donvitinh = str_replace('*', '%', $donvitinh);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -483,9 +474,6 @@ abstract class SanphamQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($thongtin)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $thongtin)) {
-                $thongtin = str_replace('*', '%', $thongtin);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -765,23 +753,6 @@ abstract class SanphamQuery extends ModelCriteria
         return $this
             ->joinCtpdh($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Ctpdh', '\Model\CtpdhQuery');
-    }
-
-    /**
-     * Filter the query by a related Phieudathang object
-     * using the CTPDH table as cross reference
-     *
-     * @param Phieudathang $phieudathang the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildSanphamQuery The current query, for fluid interface
-     */
-    public function filterByPhieudathang($phieudathang, $comparison = Criteria::EQUAL)
-    {
-        return $this
-            ->useCtpdhQuery()
-            ->filterByPhieudathang($phieudathang, $comparison)
-            ->endUse();
     }
 
     /**

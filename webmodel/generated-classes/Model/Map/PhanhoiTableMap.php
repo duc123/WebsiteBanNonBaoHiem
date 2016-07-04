@@ -59,7 +59,7 @@ class PhanhoiTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class PhanhoiTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the MaPH field
@@ -92,6 +92,16 @@ class PhanhoiTableMap extends TableMap
     const COL_NOIDUNG = 'PhanHoi.NoiDung';
 
     /**
+     * the column name for the NgayXL field
+     */
+    const COL_NGAYXL = 'PhanHoi.NgayXL';
+
+    /**
+     * the column name for the NgayPH field
+     */
+    const COL_NGAYPH = 'PhanHoi.NgayPH';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -103,11 +113,11 @@ class PhanhoiTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Maph', 'Tennguoiph', 'Email', 'Noidung', ),
-        self::TYPE_CAMELNAME     => array('maph', 'tennguoiph', 'email', 'noidung', ),
-        self::TYPE_COLNAME       => array(PhanhoiTableMap::COL_MAPH, PhanhoiTableMap::COL_TENNGUOIPH, PhanhoiTableMap::COL_EMAIL, PhanhoiTableMap::COL_NOIDUNG, ),
-        self::TYPE_FIELDNAME     => array('MaPH', 'TenNguoiPH', 'Email', 'NoiDung', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Maph', 'Tennguoiph', 'Email', 'Noidung', 'Ngayxl', 'Ngayph', ),
+        self::TYPE_CAMELNAME     => array('maph', 'tennguoiph', 'email', 'noidung', 'ngayxl', 'ngayph', ),
+        self::TYPE_COLNAME       => array(PhanhoiTableMap::COL_MAPH, PhanhoiTableMap::COL_TENNGUOIPH, PhanhoiTableMap::COL_EMAIL, PhanhoiTableMap::COL_NOIDUNG, PhanhoiTableMap::COL_NGAYXL, PhanhoiTableMap::COL_NGAYPH, ),
+        self::TYPE_FIELDNAME     => array('MaPH', 'TenNguoiPH', 'Email', 'NoiDung', 'NgayXL', 'NgayPH', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -117,11 +127,11 @@ class PhanhoiTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Maph' => 0, 'Tennguoiph' => 1, 'Email' => 2, 'Noidung' => 3, ),
-        self::TYPE_CAMELNAME     => array('maph' => 0, 'tennguoiph' => 1, 'email' => 2, 'noidung' => 3, ),
-        self::TYPE_COLNAME       => array(PhanhoiTableMap::COL_MAPH => 0, PhanhoiTableMap::COL_TENNGUOIPH => 1, PhanhoiTableMap::COL_EMAIL => 2, PhanhoiTableMap::COL_NOIDUNG => 3, ),
-        self::TYPE_FIELDNAME     => array('MaPH' => 0, 'TenNguoiPH' => 1, 'Email' => 2, 'NoiDung' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Maph' => 0, 'Tennguoiph' => 1, 'Email' => 2, 'Noidung' => 3, 'Ngayxl' => 4, 'Ngayph' => 5, ),
+        self::TYPE_CAMELNAME     => array('maph' => 0, 'tennguoiph' => 1, 'email' => 2, 'noidung' => 3, 'ngayxl' => 4, 'ngayph' => 5, ),
+        self::TYPE_COLNAME       => array(PhanhoiTableMap::COL_MAPH => 0, PhanhoiTableMap::COL_TENNGUOIPH => 1, PhanhoiTableMap::COL_EMAIL => 2, PhanhoiTableMap::COL_NOIDUNG => 3, PhanhoiTableMap::COL_NGAYXL => 4, PhanhoiTableMap::COL_NGAYPH => 5, ),
+        self::TYPE_FIELDNAME     => array('MaPH' => 0, 'TenNguoiPH' => 1, 'Email' => 2, 'NoiDung' => 3, 'NgayXL' => 4, 'NgayPH' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -145,6 +155,8 @@ class PhanhoiTableMap extends TableMap
         $this->addColumn('TenNguoiPH', 'Tennguoiph', 'VARCHAR', false, 45, null);
         $this->addColumn('Email', 'Email', 'VARCHAR', true, 45, null);
         $this->addColumn('NoiDung', 'Noidung', 'LONGVARCHAR', true, null, null);
+        $this->addColumn('NgayXL', 'Ngayxl', 'DATE', false, null, null);
+        $this->addColumn('NgayPH', 'Ngayph', 'TIMESTAMP', false, null, 'CURRENT_TIMESTAMP');
     } // initialize()
 
     /**
@@ -299,11 +311,15 @@ class PhanhoiTableMap extends TableMap
             $criteria->addSelectColumn(PhanhoiTableMap::COL_TENNGUOIPH);
             $criteria->addSelectColumn(PhanhoiTableMap::COL_EMAIL);
             $criteria->addSelectColumn(PhanhoiTableMap::COL_NOIDUNG);
+            $criteria->addSelectColumn(PhanhoiTableMap::COL_NGAYXL);
+            $criteria->addSelectColumn(PhanhoiTableMap::COL_NGAYPH);
         } else {
             $criteria->addSelectColumn($alias . '.MaPH');
             $criteria->addSelectColumn($alias . '.TenNguoiPH');
             $criteria->addSelectColumn($alias . '.Email');
             $criteria->addSelectColumn($alias . '.NoiDung');
+            $criteria->addSelectColumn($alias . '.NgayXL');
+            $criteria->addSelectColumn($alias . '.NgayPH');
         }
     }
 

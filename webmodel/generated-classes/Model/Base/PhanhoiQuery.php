@@ -23,11 +23,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhanhoiQuery orderByTennguoiph($order = Criteria::ASC) Order by the TenNguoiPH column
  * @method     ChildPhanhoiQuery orderByEmail($order = Criteria::ASC) Order by the Email column
  * @method     ChildPhanhoiQuery orderByNoidung($order = Criteria::ASC) Order by the NoiDung column
+ * @method     ChildPhanhoiQuery orderByNgayxl($order = Criteria::ASC) Order by the NgayXL column
+ * @method     ChildPhanhoiQuery orderByNgayph($order = Criteria::ASC) Order by the NgayPH column
  *
  * @method     ChildPhanhoiQuery groupByMaph() Group by the MaPH column
  * @method     ChildPhanhoiQuery groupByTennguoiph() Group by the TenNguoiPH column
  * @method     ChildPhanhoiQuery groupByEmail() Group by the Email column
  * @method     ChildPhanhoiQuery groupByNoidung() Group by the NoiDung column
+ * @method     ChildPhanhoiQuery groupByNgayxl() Group by the NgayXL column
+ * @method     ChildPhanhoiQuery groupByNgayph() Group by the NgayPH column
  *
  * @method     ChildPhanhoiQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildPhanhoiQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -43,7 +47,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhanhoi findOneByMaph(int $MaPH) Return the first ChildPhanhoi filtered by the MaPH column
  * @method     ChildPhanhoi findOneByTennguoiph(string $TenNguoiPH) Return the first ChildPhanhoi filtered by the TenNguoiPH column
  * @method     ChildPhanhoi findOneByEmail(string $Email) Return the first ChildPhanhoi filtered by the Email column
- * @method     ChildPhanhoi findOneByNoidung(string $NoiDung) Return the first ChildPhanhoi filtered by the NoiDung column *
+ * @method     ChildPhanhoi findOneByNoidung(string $NoiDung) Return the first ChildPhanhoi filtered by the NoiDung column
+ * @method     ChildPhanhoi findOneByNgayxl(string $NgayXL) Return the first ChildPhanhoi filtered by the NgayXL column
+ * @method     ChildPhanhoi findOneByNgayph(string $NgayPH) Return the first ChildPhanhoi filtered by the NgayPH column *
 
  * @method     ChildPhanhoi requirePk($key, ConnectionInterface $con = null) Return the ChildPhanhoi by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPhanhoi requireOne(ConnectionInterface $con = null) Return the first ChildPhanhoi matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -52,12 +58,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhanhoi requireOneByTennguoiph(string $TenNguoiPH) Return the first ChildPhanhoi filtered by the TenNguoiPH column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPhanhoi requireOneByEmail(string $Email) Return the first ChildPhanhoi filtered by the Email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPhanhoi requireOneByNoidung(string $NoiDung) Return the first ChildPhanhoi filtered by the NoiDung column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPhanhoi requireOneByNgayxl(string $NgayXL) Return the first ChildPhanhoi filtered by the NgayXL column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPhanhoi requireOneByNgayph(string $NgayPH) Return the first ChildPhanhoi filtered by the NgayPH column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPhanhoi[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPhanhoi objects based on current ModelCriteria
  * @method     ChildPhanhoi[]|ObjectCollection findByMaph(int $MaPH) Return ChildPhanhoi objects filtered by the MaPH column
  * @method     ChildPhanhoi[]|ObjectCollection findByTennguoiph(string $TenNguoiPH) Return ChildPhanhoi objects filtered by the TenNguoiPH column
  * @method     ChildPhanhoi[]|ObjectCollection findByEmail(string $Email) Return ChildPhanhoi objects filtered by the Email column
  * @method     ChildPhanhoi[]|ObjectCollection findByNoidung(string $NoiDung) Return ChildPhanhoi objects filtered by the NoiDung column
+ * @method     ChildPhanhoi[]|ObjectCollection findByNgayxl(string $NgayXL) Return ChildPhanhoi objects filtered by the NgayXL column
+ * @method     ChildPhanhoi[]|ObjectCollection findByNgayph(string $NgayPH) Return ChildPhanhoi objects filtered by the NgayPH column
  * @method     ChildPhanhoi[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -156,7 +166,7 @@ abstract class PhanhoiQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT MaPH, TenNguoiPH, Email, NoiDung FROM PhanHoi WHERE MaPH = :p0';
+        $sql = 'SELECT MaPH, TenNguoiPH, Email, NoiDung, NgayXL, NgayPH FROM PhanHoi WHERE MaPH = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -307,9 +317,6 @@ abstract class PhanhoiQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tennguoiph)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tennguoiph)) {
-                $tennguoiph = str_replace('*', '%', $tennguoiph);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -336,9 +343,6 @@ abstract class PhanhoiQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -365,13 +369,96 @@ abstract class PhanhoiQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($noidung)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $noidung)) {
-                $noidung = str_replace('*', '%', $noidung);
-                $comparison = Criteria::LIKE;
             }
         }
 
         return $this->addUsingAlias(PhanhoiTableMap::COL_NOIDUNG, $noidung, $comparison);
+    }
+
+    /**
+     * Filter the query on the NgayXL column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNgayxl('2011-03-14'); // WHERE NgayXL = '2011-03-14'
+     * $query->filterByNgayxl('now'); // WHERE NgayXL = '2011-03-14'
+     * $query->filterByNgayxl(array('max' => 'yesterday')); // WHERE NgayXL > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $ngayxl The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPhanhoiQuery The current query, for fluid interface
+     */
+    public function filterByNgayxl($ngayxl = null, $comparison = null)
+    {
+        if (is_array($ngayxl)) {
+            $useMinMax = false;
+            if (isset($ngayxl['min'])) {
+                $this->addUsingAlias(PhanhoiTableMap::COL_NGAYXL, $ngayxl['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ngayxl['max'])) {
+                $this->addUsingAlias(PhanhoiTableMap::COL_NGAYXL, $ngayxl['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PhanhoiTableMap::COL_NGAYXL, $ngayxl, $comparison);
+    }
+
+    /**
+     * Filter the query on the NgayPH column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNgayph('2011-03-14'); // WHERE NgayPH = '2011-03-14'
+     * $query->filterByNgayph('now'); // WHERE NgayPH = '2011-03-14'
+     * $query->filterByNgayph(array('max' => 'yesterday')); // WHERE NgayPH > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $ngayph The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPhanhoiQuery The current query, for fluid interface
+     */
+    public function filterByNgayph($ngayph = null, $comparison = null)
+    {
+        if (is_array($ngayph)) {
+            $useMinMax = false;
+            if (isset($ngayph['min'])) {
+                $this->addUsingAlias(PhanhoiTableMap::COL_NGAYPH, $ngayph['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ngayph['max'])) {
+                $this->addUsingAlias(PhanhoiTableMap::COL_NGAYPH, $ngayph['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PhanhoiTableMap::COL_NGAYPH, $ngayph, $comparison);
     }
 
     /**

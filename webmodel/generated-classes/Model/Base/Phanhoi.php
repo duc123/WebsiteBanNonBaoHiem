@@ -2,6 +2,7 @@
 
 namespace Model\Base;
 
+use \DateTime;
 use \Exception;
 use \PDO;
 use Model\PhanhoiQuery as ChildPhanhoiQuery;
@@ -17,6 +18,7 @@ use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
+use Propel\Runtime\Util\PropelDateTime;
 
 /**
  * Base class that represents a row from the 'PhanHoi' table.
@@ -88,6 +90,21 @@ abstract class Phanhoi implements ActiveRecordInterface
     protected $noidung;
 
     /**
+     * The value for the ngayxl field.
+     *
+     * @var        DateTime
+     */
+    protected $ngayxl;
+
+    /**
+     * The value for the ngayph field.
+     *
+     * Note: this column has a database default value of: (expression) CURRENT_TIMESTAMP
+     * @var        DateTime
+     */
+    protected $ngayph;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -96,10 +113,22 @@ abstract class Phanhoi implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+    }
+
+    /**
      * Initializes internal state of Model\Base\Phanhoi object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -361,6 +390,46 @@ abstract class Phanhoi implements ActiveRecordInterface
     }
 
     /**
+     * Get the [optionally formatted] temporal [ngayxl] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getNgayxl($format = NULL)
+    {
+        if ($format === null) {
+            return $this->ngayxl;
+        } else {
+            return $this->ngayxl instanceof \DateTimeInterface ? $this->ngayxl->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [ngayph] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getNgayph($format = NULL)
+    {
+        if ($format === null) {
+            return $this->ngayph;
+        } else {
+            return $this->ngayph instanceof \DateTimeInterface ? $this->ngayph->format($format) : null;
+        }
+    }
+
+    /**
      * Set the value of [maph] column.
      *
      * @param int $v new value
@@ -441,6 +510,46 @@ abstract class Phanhoi implements ActiveRecordInterface
     } // setNoidung()
 
     /**
+     * Sets the value of [ngayxl] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Model\Phanhoi The current object (for fluent API support)
+     */
+    public function setNgayxl($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->ngayxl !== null || $dt !== null) {
+            if ($this->ngayxl === null || $dt === null || $dt->format("Y-m-d") !== $this->ngayxl->format("Y-m-d")) {
+                $this->ngayxl = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[PhanhoiTableMap::COL_NGAYXL] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setNgayxl()
+
+    /**
+     * Sets the value of [ngayph] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Model\Phanhoi The current object (for fluent API support)
+     */
+    public function setNgayph($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->ngayph !== null || $dt !== null) {
+            if ($this->ngayph === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->ngayph->format("Y-m-d H:i:s.u")) {
+                $this->ngayph = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[PhanhoiTableMap::COL_NGAYPH] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setNgayph()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -487,6 +596,18 @@ abstract class Phanhoi implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PhanhoiTableMap::translateFieldName('Noidung', TableMap::TYPE_PHPNAME, $indexType)];
             $this->noidung = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PhanhoiTableMap::translateFieldName('Ngayxl', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00') {
+                $col = null;
+            }
+            $this->ngayxl = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : PhanhoiTableMap::translateFieldName('Ngayph', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00 00:00:00') {
+                $col = null;
+            }
+            $this->ngayph = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -495,7 +616,7 @@ abstract class Phanhoi implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = PhanhoiTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = PhanhoiTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Model\\Phanhoi'), 0, $e);
@@ -704,6 +825,12 @@ abstract class Phanhoi implements ActiveRecordInterface
         if ($this->isColumnModified(PhanhoiTableMap::COL_NOIDUNG)) {
             $modifiedColumns[':p' . $index++]  = 'NoiDung';
         }
+        if ($this->isColumnModified(PhanhoiTableMap::COL_NGAYXL)) {
+            $modifiedColumns[':p' . $index++]  = 'NgayXL';
+        }
+        if ($this->isColumnModified(PhanhoiTableMap::COL_NGAYPH)) {
+            $modifiedColumns[':p' . $index++]  = 'NgayPH';
+        }
 
         $sql = sprintf(
             'INSERT INTO PhanHoi (%s) VALUES (%s)',
@@ -726,6 +853,12 @@ abstract class Phanhoi implements ActiveRecordInterface
                         break;
                     case 'NoiDung':
                         $stmt->bindValue($identifier, $this->noidung, PDO::PARAM_STR);
+                        break;
+                    case 'NgayXL':
+                        $stmt->bindValue($identifier, $this->ngayxl ? $this->ngayxl->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'NgayPH':
+                        $stmt->bindValue($identifier, $this->ngayph ? $this->ngayph->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -801,6 +934,12 @@ abstract class Phanhoi implements ActiveRecordInterface
             case 3:
                 return $this->getNoidung();
                 break;
+            case 4:
+                return $this->getNgayxl();
+                break;
+            case 5:
+                return $this->getNgayph();
+                break;
             default:
                 return null;
                 break;
@@ -834,7 +973,17 @@ abstract class Phanhoi implements ActiveRecordInterface
             $keys[1] => $this->getTennguoiph(),
             $keys[2] => $this->getEmail(),
             $keys[3] => $this->getNoidung(),
+            $keys[4] => $this->getNgayxl(),
+            $keys[5] => $this->getNgayph(),
         );
+        if ($result[$keys[4]] instanceof \DateTime) {
+            $result[$keys[4]] = $result[$keys[4]]->format('c');
+        }
+
+        if ($result[$keys[5]] instanceof \DateTime) {
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
+        }
+
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
@@ -885,6 +1034,12 @@ abstract class Phanhoi implements ActiveRecordInterface
             case 3:
                 $this->setNoidung($value);
                 break;
+            case 4:
+                $this->setNgayxl($value);
+                break;
+            case 5:
+                $this->setNgayph($value);
+                break;
         } // switch()
 
         return $this;
@@ -922,6 +1077,12 @@ abstract class Phanhoi implements ActiveRecordInterface
         }
         if (array_key_exists($keys[3], $arr)) {
             $this->setNoidung($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setNgayxl($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setNgayph($arr[$keys[5]]);
         }
     }
 
@@ -975,6 +1136,12 @@ abstract class Phanhoi implements ActiveRecordInterface
         }
         if ($this->isColumnModified(PhanhoiTableMap::COL_NOIDUNG)) {
             $criteria->add(PhanhoiTableMap::COL_NOIDUNG, $this->noidung);
+        }
+        if ($this->isColumnModified(PhanhoiTableMap::COL_NGAYXL)) {
+            $criteria->add(PhanhoiTableMap::COL_NGAYXL, $this->ngayxl);
+        }
+        if ($this->isColumnModified(PhanhoiTableMap::COL_NGAYPH)) {
+            $criteria->add(PhanhoiTableMap::COL_NGAYPH, $this->ngayph);
         }
 
         return $criteria;
@@ -1065,6 +1232,8 @@ abstract class Phanhoi implements ActiveRecordInterface
         $copyObj->setTennguoiph($this->getTennguoiph());
         $copyObj->setEmail($this->getEmail());
         $copyObj->setNoidung($this->getNoidung());
+        $copyObj->setNgayxl($this->getNgayxl());
+        $copyObj->setNgayph($this->getNgayph());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setMaph(NULL); // this is a auto-increment column, so set to default value
@@ -1104,8 +1273,11 @@ abstract class Phanhoi implements ActiveRecordInterface
         $this->tennguoiph = null;
         $this->email = null;
         $this->noidung = null;
+        $this->ngayxl = null;
+        $this->ngayph = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

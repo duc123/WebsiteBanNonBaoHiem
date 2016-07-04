@@ -8,8 +8,6 @@ use Model\Ctpdh as ChildCtpdh;
 use Model\CtpdhQuery as ChildCtpdhQuery;
 use Model\Loaisp as ChildLoaisp;
 use Model\LoaispQuery as ChildLoaispQuery;
-use Model\Phieudathang as ChildPhieudathang;
-use Model\PhieudathangQuery as ChildPhieudathangQuery;
 use Model\Sanpham as ChildSanpham;
 use Model\SanphamQuery as ChildSanphamQuery;
 use Model\Map\CtpdhTableMap;
@@ -143,28 +141,12 @@ abstract class Sanpham implements ActiveRecordInterface
     protected $collCtpdhsPartial;
 
     /**
-     * @var        ObjectCollection|ChildPhieudathang[] Cross Collection to store aggregation of ChildPhieudathang objects.
-     */
-    protected $collPhieudathangs;
-
-    /**
-     * @var bool
-     */
-    protected $collPhieudathangsPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
      * @var boolean
      */
     protected $alreadyInSave = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildPhieudathang[]
-     */
-    protected $phieudathangsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -808,7 +790,6 @@ abstract class Sanpham implements ActiveRecordInterface
             $this->aLoaisp = null;
             $this->collCtpdhs = null;
 
-            $this->collPhieudathangs = null;
         } // if (deep)
     }
 
@@ -930,35 +911,6 @@ abstract class Sanpham implements ActiveRecordInterface
                 }
                 $this->resetModified();
             }
-
-            if ($this->phieudathangsScheduledForDeletion !== null) {
-                if (!$this->phieudathangsScheduledForDeletion->isEmpty()) {
-                    $pks = array();
-                    foreach ($this->phieudathangsScheduledForDeletion as $entry) {
-                        $entryPk = [];
-
-                        $entryPk[0] = $this->getMasanpham();
-                        $entryPk[1] = $entry->getSophieu();
-                        $pks[] = $entryPk;
-                    }
-
-                    \Model\CtpdhQuery::create()
-                        ->filterByPrimaryKeys($pks)
-                        ->delete($con);
-
-                    $this->phieudathangsScheduledForDeletion = null;
-                }
-
-            }
-
-            if ($this->collPhieudathangs) {
-                foreach ($this->collPhieudathangs as $phieudathang) {
-                    if (!$phieudathang->isDeleted() && ($phieudathang->isNew() || $phieudathang->isModified())) {
-                        $phieudathang->save($con);
-                    }
-                }
-            }
-
 
             if ($this->ctpdhsScheduledForDeletion !== null) {
                 if (!$this->ctpdhsScheduledForDeletion->isEmpty()) {
@@ -1872,249 +1824,6 @@ abstract class Sanpham implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collPhieudathangs collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addPhieudathangs()
-     */
-    public function clearPhieudathangs()
-    {
-        $this->collPhieudathangs = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Initializes the collPhieudathangs crossRef collection.
-     *
-     * By default this just sets the collPhieudathangs collection to an empty collection (like clearPhieudathangs());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @return void
-     */
-    public function initPhieudathangs()
-    {
-        $collectionClassName = CtpdhTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collPhieudathangs = new $collectionClassName;
-        $this->collPhieudathangsPartial = true;
-        $this->collPhieudathangs->setModel('\Model\Phieudathang');
-    }
-
-    /**
-     * Checks if the collPhieudathangs collection is loaded.
-     *
-     * @return bool
-     */
-    public function isPhieudathangsLoaded()
-    {
-        return null !== $this->collPhieudathangs;
-    }
-
-    /**
-     * Gets a collection of ChildPhieudathang objects related by a many-to-many relationship
-     * to the current object by way of the CTPDH cross-reference table.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildSanpham is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return ObjectCollection|ChildPhieudathang[] List of ChildPhieudathang objects
-     */
-    public function getPhieudathangs(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collPhieudathangsPartial && !$this->isNew();
-        if (null === $this->collPhieudathangs || null !== $criteria || $partial) {
-            if ($this->isNew()) {
-                // return empty collection
-                if (null === $this->collPhieudathangs) {
-                    $this->initPhieudathangs();
-                }
-            } else {
-
-                $query = ChildPhieudathangQuery::create(null, $criteria)
-                    ->filterBySanpham($this);
-                $collPhieudathangs = $query->find($con);
-                if (null !== $criteria) {
-                    return $collPhieudathangs;
-                }
-
-                if ($partial && $this->collPhieudathangs) {
-                    //make sure that already added objects gets added to the list of the database.
-                    foreach ($this->collPhieudathangs as $obj) {
-                        if (!$collPhieudathangs->contains($obj)) {
-                            $collPhieudathangs[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collPhieudathangs = $collPhieudathangs;
-                $this->collPhieudathangsPartial = false;
-            }
-        }
-
-        return $this->collPhieudathangs;
-    }
-
-    /**
-     * Sets a collection of Phieudathang objects related by a many-to-many relationship
-     * to the current object by way of the CTPDH cross-reference table.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param  Collection $phieudathangs A Propel collection.
-     * @param  ConnectionInterface $con Optional connection object
-     * @return $this|ChildSanpham The current object (for fluent API support)
-     */
-    public function setPhieudathangs(Collection $phieudathangs, ConnectionInterface $con = null)
-    {
-        $this->clearPhieudathangs();
-        $currentPhieudathangs = $this->getPhieudathangs();
-
-        $phieudathangsScheduledForDeletion = $currentPhieudathangs->diff($phieudathangs);
-
-        foreach ($phieudathangsScheduledForDeletion as $toDelete) {
-            $this->removePhieudathang($toDelete);
-        }
-
-        foreach ($phieudathangs as $phieudathang) {
-            if (!$currentPhieudathangs->contains($phieudathang)) {
-                $this->doAddPhieudathang($phieudathang);
-            }
-        }
-
-        $this->collPhieudathangsPartial = false;
-        $this->collPhieudathangs = $phieudathangs;
-
-        return $this;
-    }
-
-    /**
-     * Gets the number of Phieudathang objects related by a many-to-many relationship
-     * to the current object by way of the CTPDH cross-reference table.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      boolean $distinct Set to true to force count distinct
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return int the number of related Phieudathang objects
-     */
-    public function countPhieudathangs(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collPhieudathangsPartial && !$this->isNew();
-        if (null === $this->collPhieudathangs || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collPhieudathangs) {
-                return 0;
-            } else {
-
-                if ($partial && !$criteria) {
-                    return count($this->getPhieudathangs());
-                }
-
-                $query = ChildPhieudathangQuery::create(null, $criteria);
-                if ($distinct) {
-                    $query->distinct();
-                }
-
-                return $query
-                    ->filterBySanpham($this)
-                    ->count($con);
-            }
-        } else {
-            return count($this->collPhieudathangs);
-        }
-    }
-
-    /**
-     * Associate a ChildPhieudathang to this object
-     * through the CTPDH cross reference table.
-     *
-     * @param ChildPhieudathang $phieudathang
-     * @return ChildSanpham The current object (for fluent API support)
-     */
-    public function addPhieudathang(ChildPhieudathang $phieudathang)
-    {
-        if ($this->collPhieudathangs === null) {
-            $this->initPhieudathangs();
-        }
-
-        if (!$this->getPhieudathangs()->contains($phieudathang)) {
-            // only add it if the **same** object is not already associated
-            $this->collPhieudathangs->push($phieudathang);
-            $this->doAddPhieudathang($phieudathang);
-        }
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param ChildPhieudathang $phieudathang
-     */
-    protected function doAddPhieudathang(ChildPhieudathang $phieudathang)
-    {
-        $ctpdh = new ChildCtpdh();
-
-        $ctpdh->setPhieudathang($phieudathang);
-
-        $ctpdh->setSanpham($this);
-
-        $this->addCtpdh($ctpdh);
-
-        // set the back reference to this object directly as using provided method either results
-        // in endless loop or in multiple relations
-        if (!$phieudathang->isSanphamsLoaded()) {
-            $phieudathang->initSanphams();
-            $phieudathang->getSanphams()->push($this);
-        } elseif (!$phieudathang->getSanphams()->contains($this)) {
-            $phieudathang->getSanphams()->push($this);
-        }
-
-    }
-
-    /**
-     * Remove phieudathang of this object
-     * through the CTPDH cross reference table.
-     *
-     * @param ChildPhieudathang $phieudathang
-     * @return ChildSanpham The current object (for fluent API support)
-     */
-    public function removePhieudathang(ChildPhieudathang $phieudathang)
-    {
-        if ($this->getPhieudathangs()->contains($phieudathang)) { $ctpdh = new ChildCtpdh();
-
-            $ctpdh->setPhieudathang($phieudathang);
-            if ($phieudathang->isSanphamsLoaded()) {
-                //remove the back reference if available
-                $phieudathang->getSanphams()->removeObject($this);
-            }
-
-            $ctpdh->setSanpham($this);
-            $this->removeCtpdh(clone $ctpdh);
-            $ctpdh->clear();
-
-            $this->collPhieudathangs->remove($this->collPhieudathangs->search($phieudathang));
-
-            if (null === $this->phieudathangsScheduledForDeletion) {
-                $this->phieudathangsScheduledForDeletion = clone $this->collPhieudathangs;
-                $this->phieudathangsScheduledForDeletion->clear();
-            }
-
-            $this->phieudathangsScheduledForDeletion->push($phieudathang);
-        }
-
-
-        return $this;
-    }
-
-    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
@@ -2156,15 +1865,9 @@ abstract class Sanpham implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collPhieudathangs) {
-                foreach ($this->collPhieudathangs as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
         $this->collCtpdhs = null;
-        $this->collPhieudathangs = null;
         $this->aLoaisp = null;
     }
 

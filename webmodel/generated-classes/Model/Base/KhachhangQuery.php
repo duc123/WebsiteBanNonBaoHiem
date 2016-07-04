@@ -350,9 +350,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tenkh)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tenkh)) {
-                $tenkh = str_replace('*', '%', $tenkh);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -379,9 +376,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($dt)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $dt)) {
-                $dt = str_replace('*', '%', $dt);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -408,9 +402,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -437,9 +428,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($diachi)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $diachi)) {
-                $diachi = str_replace('*', '%', $diachi);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -466,9 +454,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($thanhpho)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $thanhpho)) {
-                $thanhpho = str_replace('*', '%', $thanhpho);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -495,9 +480,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($quanHuyen)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $quanHuyen)) {
-                $quanHuyen = str_replace('*', '%', $quanHuyen);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -524,9 +506,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($phuongXa)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $phuongXa)) {
-                $phuongXa = str_replace('*', '%', $phuongXa);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -553,9 +532,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($username)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $username)) {
-                $username = str_replace('*', '%', $username);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -582,9 +558,6 @@ abstract class KhachhangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($password)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $password)) {
-                $password = str_replace('*', '%', $password);
-                $comparison = Criteria::LIKE;
             }
         }
 

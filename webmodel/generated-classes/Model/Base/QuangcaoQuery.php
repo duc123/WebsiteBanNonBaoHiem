@@ -325,9 +325,6 @@ abstract class QuangcaoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tenqc)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tenqc)) {
-                $tenqc = str_replace('*', '%', $tenqc);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -354,9 +351,6 @@ abstract class QuangcaoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($noidung)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $noidung)) {
-                $noidung = str_replace('*', '%', $noidung);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -383,9 +377,6 @@ abstract class QuangcaoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($hinhanh)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $hinhanh)) {
-                $hinhanh = str_replace('*', '%', $hinhanh);
-                $comparison = Criteria::LIKE;
             }
         }
 

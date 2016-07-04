@@ -315,9 +315,6 @@ abstract class PhuongXaQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tenpX)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tenpX)) {
-                $tenpX = str_replace('*', '%', $tenpX);
-                $comparison = Criteria::LIKE;
             }
         }
 

@@ -307,9 +307,6 @@ abstract class LienheQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tennguoilh)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tennguoilh)) {
-                $tennguoilh = str_replace('*', '%', $tennguoilh);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -336,9 +333,6 @@ abstract class LienheQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($dienthoai)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $dienthoai)) {
-                $dienthoai = str_replace('*', '%', $dienthoai);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -365,9 +359,6 @@ abstract class LienheQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($email)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $email)) {
-                $email = str_replace('*', '%', $email);
-                $comparison = Criteria::LIKE;
             }
         }
 

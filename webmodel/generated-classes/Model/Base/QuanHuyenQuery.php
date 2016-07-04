@@ -330,9 +330,6 @@ abstract class QuanHuyenQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tenquanHuyen)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tenquanHuyen)) {
-                $tenquanHuyen = str_replace('*', '%', $tenquanHuyen);
-                $comparison = Criteria::LIKE;
             }
         }
 

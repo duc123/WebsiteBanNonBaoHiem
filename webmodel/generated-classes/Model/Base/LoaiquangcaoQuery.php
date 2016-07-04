@@ -310,9 +310,6 @@ abstract class LoaiquangcaoQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tenlqc)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tenlqc)) {
-                $tenlqc = str_replace('*', '%', $tenlqc);
-                $comparison = Criteria::LIKE;
             }
         }
 

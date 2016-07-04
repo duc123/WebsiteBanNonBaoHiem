@@ -11,8 +11,6 @@ use Model\Khachhang as ChildKhachhang;
 use Model\KhachhangQuery as ChildKhachhangQuery;
 use Model\Phieudathang as ChildPhieudathang;
 use Model\PhieudathangQuery as ChildPhieudathangQuery;
-use Model\Sanpham as ChildSanpham;
-use Model\SanphamQuery as ChildSanphamQuery;
 use Model\Map\CtpdhTableMap;
 use Model\Map\PhieudathangTableMap;
 use Propel\Runtime\Propel;
@@ -148,6 +146,21 @@ abstract class Phieudathang implements ActiveRecordInterface
     protected $ngaygiao;
 
     /**
+     * The value for the tinhtrang field.
+     *
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $tinhtrang;
+
+    /**
+     * The value for the sodienthoai field.
+     *
+     * @var        string
+     */
+    protected $sodienthoai;
+
+    /**
      * @var        ChildKhachhang
      */
     protected $aKhachhang;
@@ -159,16 +172,6 @@ abstract class Phieudathang implements ActiveRecordInterface
     protected $collCtpdhsPartial;
 
     /**
-     * @var        ObjectCollection|ChildSanpham[] Cross Collection to store aggregation of ChildSanpham objects.
-     */
-    protected $collSanphams;
-
-    /**
-     * @var bool
-     */
-    protected $collSanphamsPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -178,21 +181,28 @@ abstract class Phieudathang implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildSanpham[]
-     */
-    protected $sanphamsScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
      * @var ObjectCollection|ChildCtpdh[]
      */
     protected $ctpdhsScheduledForDeletion = null;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->tinhtrang = false;
+    }
+
+    /**
      * Initializes internal state of Model\Base\Phieudathang object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -544,6 +554,36 @@ abstract class Phieudathang implements ActiveRecordInterface
     }
 
     /**
+     * Get the [tinhtrang] column value.
+     *
+     * @return boolean
+     */
+    public function getTinhtrang()
+    {
+        return $this->tinhtrang;
+    }
+
+    /**
+     * Get the [tinhtrang] column value.
+     *
+     * @return boolean
+     */
+    public function isTinhtrang()
+    {
+        return $this->getTinhtrang();
+    }
+
+    /**
+     * Get the [sodienthoai] column value.
+     *
+     * @return string
+     */
+    public function getSodienthoai()
+    {
+        return $this->sodienthoai;
+    }
+
+    /**
      * Set the value of [sophieu] column.
      *
      * @param int $v new value
@@ -768,6 +808,54 @@ abstract class Phieudathang implements ActiveRecordInterface
     } // setNgaygiao()
 
     /**
+     * Sets the value of the [tinhtrang] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\Model\Phieudathang The current object (for fluent API support)
+     */
+    public function setTinhtrang($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->tinhtrang !== $v) {
+            $this->tinhtrang = $v;
+            $this->modifiedColumns[PhieudathangTableMap::COL_TINHTRANG] = true;
+        }
+
+        return $this;
+    } // setTinhtrang()
+
+    /**
+     * Set the value of [sodienthoai] column.
+     *
+     * @param string $v new value
+     * @return $this|\Model\Phieudathang The current object (for fluent API support)
+     */
+    public function setSodienthoai($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->sodienthoai !== $v) {
+            $this->sodienthoai = $v;
+            $this->modifiedColumns[PhieudathangTableMap::COL_SODIENTHOAI] = true;
+        }
+
+        return $this;
+    } // setSodienthoai()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -777,6 +865,10 @@ abstract class Phieudathang implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->tinhtrang !== false) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -841,6 +933,12 @@ abstract class Phieudathang implements ActiveRecordInterface
                 $col = null;
             }
             $this->ngaygiao = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : PhieudathangTableMap::translateFieldName('Tinhtrang', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->tinhtrang = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : PhieudathangTableMap::translateFieldName('Sodienthoai', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->sodienthoai = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -849,7 +947,7 @@ abstract class Phieudathang implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 11; // 11 = PhieudathangTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 13; // 13 = PhieudathangTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Model\\Phieudathang'), 0, $e);
@@ -916,7 +1014,6 @@ abstract class Phieudathang implements ActiveRecordInterface
             $this->aKhachhang = null;
             $this->collCtpdhs = null;
 
-            $this->collSanphams = null;
         } // if (deep)
     }
 
@@ -1039,35 +1136,6 @@ abstract class Phieudathang implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->sanphamsScheduledForDeletion !== null) {
-                if (!$this->sanphamsScheduledForDeletion->isEmpty()) {
-                    $pks = array();
-                    foreach ($this->sanphamsScheduledForDeletion as $entry) {
-                        $entryPk = [];
-
-                        $entryPk[1] = $this->getSophieu();
-                        $entryPk[0] = $entry->getMasanpham();
-                        $pks[] = $entryPk;
-                    }
-
-                    \Model\CtpdhQuery::create()
-                        ->filterByPrimaryKeys($pks)
-                        ->delete($con);
-
-                    $this->sanphamsScheduledForDeletion = null;
-                }
-
-            }
-
-            if ($this->collSanphams) {
-                foreach ($this->collSanphams as $sanpham) {
-                    if (!$sanpham->isDeleted() && ($sanpham->isNew() || $sanpham->isModified())) {
-                        $sanpham->save($con);
-                    }
-                }
-            }
-
-
             if ($this->ctpdhsScheduledForDeletion !== null) {
                 if (!$this->ctpdhsScheduledForDeletion->isEmpty()) {
                     \Model\CtpdhQuery::create()
@@ -1144,6 +1212,12 @@ abstract class Phieudathang implements ActiveRecordInterface
         if ($this->isColumnModified(PhieudathangTableMap::COL_NGAYGIAO)) {
             $modifiedColumns[':p' . $index++]  = 'NgayGiao';
         }
+        if ($this->isColumnModified(PhieudathangTableMap::COL_TINHTRANG)) {
+            $modifiedColumns[':p' . $index++]  = 'TinhTrang';
+        }
+        if ($this->isColumnModified(PhieudathangTableMap::COL_SODIENTHOAI)) {
+            $modifiedColumns[':p' . $index++]  = 'SoDienThoai';
+        }
 
         $sql = sprintf(
             'INSERT INTO PhieuDatHang (%s) VALUES (%s)',
@@ -1187,6 +1261,12 @@ abstract class Phieudathang implements ActiveRecordInterface
                         break;
                     case 'NgayGiao':
                         $stmt->bindValue($identifier, $this->ngaygiao ? $this->ngaygiao->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'TinhTrang':
+                        $stmt->bindValue($identifier, (int) $this->tinhtrang, PDO::PARAM_INT);
+                        break;
+                    case 'SoDienThoai':
+                        $stmt->bindValue($identifier, $this->sodienthoai, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1283,6 +1363,12 @@ abstract class Phieudathang implements ActiveRecordInterface
             case 10:
                 return $this->getNgaygiao();
                 break;
+            case 11:
+                return $this->getTinhtrang();
+                break;
+            case 12:
+                return $this->getSodienthoai();
+                break;
             default:
                 return null;
                 break;
@@ -1324,6 +1410,8 @@ abstract class Phieudathang implements ActiveRecordInterface
             $keys[8] => $this->getKhachhangMakh(),
             $keys[9] => $this->getTongtien(),
             $keys[10] => $this->getNgaygiao(),
+            $keys[11] => $this->getTinhtrang(),
+            $keys[12] => $this->getSodienthoai(),
         );
         if ($result[$keys[1]] instanceof \DateTime) {
             $result[$keys[1]] = $result[$keys[1]]->format('c');
@@ -1436,6 +1524,12 @@ abstract class Phieudathang implements ActiveRecordInterface
             case 10:
                 $this->setNgaygiao($value);
                 break;
+            case 11:
+                $this->setTinhtrang($value);
+                break;
+            case 12:
+                $this->setSodienthoai($value);
+                break;
         } // switch()
 
         return $this;
@@ -1494,6 +1588,12 @@ abstract class Phieudathang implements ActiveRecordInterface
         }
         if (array_key_exists($keys[10], $arr)) {
             $this->setNgaygiao($arr[$keys[10]]);
+        }
+        if (array_key_exists($keys[11], $arr)) {
+            $this->setTinhtrang($arr[$keys[11]]);
+        }
+        if (array_key_exists($keys[12], $arr)) {
+            $this->setSodienthoai($arr[$keys[12]]);
         }
     }
 
@@ -1568,6 +1668,12 @@ abstract class Phieudathang implements ActiveRecordInterface
         }
         if ($this->isColumnModified(PhieudathangTableMap::COL_NGAYGIAO)) {
             $criteria->add(PhieudathangTableMap::COL_NGAYGIAO, $this->ngaygiao);
+        }
+        if ($this->isColumnModified(PhieudathangTableMap::COL_TINHTRANG)) {
+            $criteria->add(PhieudathangTableMap::COL_TINHTRANG, $this->tinhtrang);
+        }
+        if ($this->isColumnModified(PhieudathangTableMap::COL_SODIENTHOAI)) {
+            $criteria->add(PhieudathangTableMap::COL_SODIENTHOAI, $this->sodienthoai);
         }
 
         return $criteria;
@@ -1665,6 +1771,8 @@ abstract class Phieudathang implements ActiveRecordInterface
         $copyObj->setKhachhangMakh($this->getKhachhangMakh());
         $copyObj->setTongtien($this->getTongtien());
         $copyObj->setNgaygiao($this->getNgaygiao());
+        $copyObj->setTinhtrang($this->getTinhtrang());
+        $copyObj->setSodienthoai($this->getSodienthoai());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2028,249 +2136,6 @@ abstract class Phieudathang implements ActiveRecordInterface
     }
 
     /**
-     * Clears out the collSanphams collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addSanphams()
-     */
-    public function clearSanphams()
-    {
-        $this->collSanphams = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Initializes the collSanphams crossRef collection.
-     *
-     * By default this just sets the collSanphams collection to an empty collection (like clearSanphams());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @return void
-     */
-    public function initSanphams()
-    {
-        $collectionClassName = CtpdhTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSanphams = new $collectionClassName;
-        $this->collSanphamsPartial = true;
-        $this->collSanphams->setModel('\Model\Sanpham');
-    }
-
-    /**
-     * Checks if the collSanphams collection is loaded.
-     *
-     * @return bool
-     */
-    public function isSanphamsLoaded()
-    {
-        return null !== $this->collSanphams;
-    }
-
-    /**
-     * Gets a collection of ChildSanpham objects related by a many-to-many relationship
-     * to the current object by way of the CTPDH cross-reference table.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildPhieudathang is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return ObjectCollection|ChildSanpham[] List of ChildSanpham objects
-     */
-    public function getSanphams(Criteria $criteria = null, ConnectionInterface $con = null)
-    {
-        $partial = $this->collSanphamsPartial && !$this->isNew();
-        if (null === $this->collSanphams || null !== $criteria || $partial) {
-            if ($this->isNew()) {
-                // return empty collection
-                if (null === $this->collSanphams) {
-                    $this->initSanphams();
-                }
-            } else {
-
-                $query = ChildSanphamQuery::create(null, $criteria)
-                    ->filterByPhieudathang($this);
-                $collSanphams = $query->find($con);
-                if (null !== $criteria) {
-                    return $collSanphams;
-                }
-
-                if ($partial && $this->collSanphams) {
-                    //make sure that already added objects gets added to the list of the database.
-                    foreach ($this->collSanphams as $obj) {
-                        if (!$collSanphams->contains($obj)) {
-                            $collSanphams[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collSanphams = $collSanphams;
-                $this->collSanphamsPartial = false;
-            }
-        }
-
-        return $this->collSanphams;
-    }
-
-    /**
-     * Sets a collection of Sanpham objects related by a many-to-many relationship
-     * to the current object by way of the CTPDH cross-reference table.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param  Collection $sanphams A Propel collection.
-     * @param  ConnectionInterface $con Optional connection object
-     * @return $this|ChildPhieudathang The current object (for fluent API support)
-     */
-    public function setSanphams(Collection $sanphams, ConnectionInterface $con = null)
-    {
-        $this->clearSanphams();
-        $currentSanphams = $this->getSanphams();
-
-        $sanphamsScheduledForDeletion = $currentSanphams->diff($sanphams);
-
-        foreach ($sanphamsScheduledForDeletion as $toDelete) {
-            $this->removeSanpham($toDelete);
-        }
-
-        foreach ($sanphams as $sanpham) {
-            if (!$currentSanphams->contains($sanpham)) {
-                $this->doAddSanpham($sanpham);
-            }
-        }
-
-        $this->collSanphamsPartial = false;
-        $this->collSanphams = $sanphams;
-
-        return $this;
-    }
-
-    /**
-     * Gets the number of Sanpham objects related by a many-to-many relationship
-     * to the current object by way of the CTPDH cross-reference table.
-     *
-     * @param      Criteria $criteria Optional query object to filter the query
-     * @param      boolean $distinct Set to true to force count distinct
-     * @param      ConnectionInterface $con Optional connection object
-     *
-     * @return int the number of related Sanpham objects
-     */
-    public function countSanphams(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collSanphamsPartial && !$this->isNew();
-        if (null === $this->collSanphams || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collSanphams) {
-                return 0;
-            } else {
-
-                if ($partial && !$criteria) {
-                    return count($this->getSanphams());
-                }
-
-                $query = ChildSanphamQuery::create(null, $criteria);
-                if ($distinct) {
-                    $query->distinct();
-                }
-
-                return $query
-                    ->filterByPhieudathang($this)
-                    ->count($con);
-            }
-        } else {
-            return count($this->collSanphams);
-        }
-    }
-
-    /**
-     * Associate a ChildSanpham to this object
-     * through the CTPDH cross reference table.
-     *
-     * @param ChildSanpham $sanpham
-     * @return ChildPhieudathang The current object (for fluent API support)
-     */
-    public function addSanpham(ChildSanpham $sanpham)
-    {
-        if ($this->collSanphams === null) {
-            $this->initSanphams();
-        }
-
-        if (!$this->getSanphams()->contains($sanpham)) {
-            // only add it if the **same** object is not already associated
-            $this->collSanphams->push($sanpham);
-            $this->doAddSanpham($sanpham);
-        }
-
-        return $this;
-    }
-
-    /**
-     *
-     * @param ChildSanpham $sanpham
-     */
-    protected function doAddSanpham(ChildSanpham $sanpham)
-    {
-        $ctpdh = new ChildCtpdh();
-
-        $ctpdh->setSanpham($sanpham);
-
-        $ctpdh->setPhieudathang($this);
-
-        $this->addCtpdh($ctpdh);
-
-        // set the back reference to this object directly as using provided method either results
-        // in endless loop or in multiple relations
-        if (!$sanpham->isPhieudathangsLoaded()) {
-            $sanpham->initPhieudathangs();
-            $sanpham->getPhieudathangs()->push($this);
-        } elseif (!$sanpham->getPhieudathangs()->contains($this)) {
-            $sanpham->getPhieudathangs()->push($this);
-        }
-
-    }
-
-    /**
-     * Remove sanpham of this object
-     * through the CTPDH cross reference table.
-     *
-     * @param ChildSanpham $sanpham
-     * @return ChildPhieudathang The current object (for fluent API support)
-     */
-    public function removeSanpham(ChildSanpham $sanpham)
-    {
-        if ($this->getSanphams()->contains($sanpham)) { $ctpdh = new ChildCtpdh();
-
-            $ctpdh->setSanpham($sanpham);
-            if ($sanpham->isPhieudathangsLoaded()) {
-                //remove the back reference if available
-                $sanpham->getPhieudathangs()->removeObject($this);
-            }
-
-            $ctpdh->setPhieudathang($this);
-            $this->removeCtpdh(clone $ctpdh);
-            $ctpdh->clear();
-
-            $this->collSanphams->remove($this->collSanphams->search($sanpham));
-
-            if (null === $this->sanphamsScheduledForDeletion) {
-                $this->sanphamsScheduledForDeletion = clone $this->collSanphams;
-                $this->sanphamsScheduledForDeletion->clear();
-            }
-
-            $this->sanphamsScheduledForDeletion->push($sanpham);
-        }
-
-
-        return $this;
-    }
-
-    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
@@ -2291,8 +2156,11 @@ abstract class Phieudathang implements ActiveRecordInterface
         $this->khachhang_makh = null;
         $this->tongtien = null;
         $this->ngaygiao = null;
+        $this->tinhtrang = null;
+        $this->sodienthoai = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -2314,15 +2182,9 @@ abstract class Phieudathang implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collSanphams) {
-                foreach ($this->collSanphams as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
         $this->collCtpdhs = null;
-        $this->collSanphams = null;
         $this->aKhachhang = null;
     }
 

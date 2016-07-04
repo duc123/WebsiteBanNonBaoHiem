@@ -31,6 +31,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhieudathangQuery orderByKhachhangMakh($order = Criteria::ASC) Order by the KhachHang_MaKH column
  * @method     ChildPhieudathangQuery orderByTongtien($order = Criteria::ASC) Order by the TongTien column
  * @method     ChildPhieudathangQuery orderByNgaygiao($order = Criteria::ASC) Order by the NgayGiao column
+ * @method     ChildPhieudathangQuery orderByTinhtrang($order = Criteria::ASC) Order by the TinhTrang column
+ * @method     ChildPhieudathangQuery orderBySodienthoai($order = Criteria::ASC) Order by the SoDienThoai column
  *
  * @method     ChildPhieudathangQuery groupBySophieu() Group by the SoPhieu column
  * @method     ChildPhieudathangQuery groupByNgaylap() Group by the NgayLap column
@@ -43,6 +45,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhieudathangQuery groupByKhachhangMakh() Group by the KhachHang_MaKH column
  * @method     ChildPhieudathangQuery groupByTongtien() Group by the TongTien column
  * @method     ChildPhieudathangQuery groupByNgaygiao() Group by the NgayGiao column
+ * @method     ChildPhieudathangQuery groupByTinhtrang() Group by the TinhTrang column
+ * @method     ChildPhieudathangQuery groupBySodienthoai() Group by the SoDienThoai column
  *
  * @method     ChildPhieudathangQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildPhieudathangQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -87,7 +91,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhieudathang findOneByChiphi(string $ChiPhi) Return the first ChildPhieudathang filtered by the ChiPhi column
  * @method     ChildPhieudathang findOneByKhachhangMakh(int $KhachHang_MaKH) Return the first ChildPhieudathang filtered by the KhachHang_MaKH column
  * @method     ChildPhieudathang findOneByTongtien(string $TongTien) Return the first ChildPhieudathang filtered by the TongTien column
- * @method     ChildPhieudathang findOneByNgaygiao(string $NgayGiao) Return the first ChildPhieudathang filtered by the NgayGiao column *
+ * @method     ChildPhieudathang findOneByNgaygiao(string $NgayGiao) Return the first ChildPhieudathang filtered by the NgayGiao column
+ * @method     ChildPhieudathang findOneByTinhtrang(boolean $TinhTrang) Return the first ChildPhieudathang filtered by the TinhTrang column
+ * @method     ChildPhieudathang findOneBySodienthoai(string $SoDienThoai) Return the first ChildPhieudathang filtered by the SoDienThoai column *
 
  * @method     ChildPhieudathang requirePk($key, ConnectionInterface $con = null) Return the ChildPhieudathang by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPhieudathang requireOne(ConnectionInterface $con = null) Return the first ChildPhieudathang matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -103,6 +109,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhieudathang requireOneByKhachhangMakh(int $KhachHang_MaKH) Return the first ChildPhieudathang filtered by the KhachHang_MaKH column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPhieudathang requireOneByTongtien(string $TongTien) Return the first ChildPhieudathang filtered by the TongTien column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPhieudathang requireOneByNgaygiao(string $NgayGiao) Return the first ChildPhieudathang filtered by the NgayGiao column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPhieudathang requireOneByTinhtrang(boolean $TinhTrang) Return the first ChildPhieudathang filtered by the TinhTrang column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPhieudathang requireOneBySodienthoai(string $SoDienThoai) Return the first ChildPhieudathang filtered by the SoDienThoai column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPhieudathang[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPhieudathang objects based on current ModelCriteria
  * @method     ChildPhieudathang[]|ObjectCollection findBySophieu(int $SoPhieu) Return ChildPhieudathang objects filtered by the SoPhieu column
@@ -116,6 +124,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPhieudathang[]|ObjectCollection findByKhachhangMakh(int $KhachHang_MaKH) Return ChildPhieudathang objects filtered by the KhachHang_MaKH column
  * @method     ChildPhieudathang[]|ObjectCollection findByTongtien(string $TongTien) Return ChildPhieudathang objects filtered by the TongTien column
  * @method     ChildPhieudathang[]|ObjectCollection findByNgaygiao(string $NgayGiao) Return ChildPhieudathang objects filtered by the NgayGiao column
+ * @method     ChildPhieudathang[]|ObjectCollection findByTinhtrang(boolean $TinhTrang) Return ChildPhieudathang objects filtered by the TinhTrang column
+ * @method     ChildPhieudathang[]|ObjectCollection findBySodienthoai(string $SoDienThoai) Return ChildPhieudathang objects filtered by the SoDienThoai column
  * @method     ChildPhieudathang[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -214,7 +224,7 @@ abstract class PhieudathangQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT SoPhieu, NgayLap, TenNguoiNhan, DiaChi, ThanhPho, Quan_Huyen, Phuong_Xa, ChiPhi, KhachHang_MaKH, TongTien, NgayGiao FROM PhieuDatHang WHERE SoPhieu = :p0';
+        $sql = 'SELECT SoPhieu, NgayLap, TenNguoiNhan, DiaChi, ThanhPho, Quan_Huyen, Phuong_Xa, ChiPhi, KhachHang_MaKH, TongTien, NgayGiao, TinhTrang, SoDienThoai FROM PhieuDatHang WHERE SoPhieu = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -408,9 +418,6 @@ abstract class PhieudathangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($tennguoinhan)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $tennguoinhan)) {
-                $tennguoinhan = str_replace('*', '%', $tennguoinhan);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -437,9 +444,6 @@ abstract class PhieudathangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($diachi)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $diachi)) {
-                $diachi = str_replace('*', '%', $diachi);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -466,9 +470,6 @@ abstract class PhieudathangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($thanhpho)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $thanhpho)) {
-                $thanhpho = str_replace('*', '%', $thanhpho);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -495,9 +496,6 @@ abstract class PhieudathangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($quanHuyen)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $quanHuyen)) {
-                $quanHuyen = str_replace('*', '%', $quanHuyen);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -524,9 +522,6 @@ abstract class PhieudathangQuery extends ModelCriteria
         if (null === $comparison) {
             if (is_array($phuongXa)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $phuongXa)) {
-                $phuongXa = str_replace('*', '%', $phuongXa);
-                $comparison = Criteria::LIKE;
             }
         }
 
@@ -702,6 +697,59 @@ abstract class PhieudathangQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the TinhTrang column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTinhtrang(true); // WHERE TinhTrang = true
+     * $query->filterByTinhtrang('yes'); // WHERE TinhTrang = true
+     * </code>
+     *
+     * @param     boolean|string $tinhtrang The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPhieudathangQuery The current query, for fluid interface
+     */
+    public function filterByTinhtrang($tinhtrang = null, $comparison = null)
+    {
+        if (is_string($tinhtrang)) {
+            $tinhtrang = in_array(strtolower($tinhtrang), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(PhieudathangTableMap::COL_TINHTRANG, $tinhtrang, $comparison);
+    }
+
+    /**
+     * Filter the query on the SoDienThoai column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySodienthoai('fooValue');   // WHERE SoDienThoai = 'fooValue'
+     * $query->filterBySodienthoai('%fooValue%'); // WHERE SoDienThoai LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $sodienthoai The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPhieudathangQuery The current query, for fluid interface
+     */
+    public function filterBySodienthoai($sodienthoai = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($sodienthoai)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PhieudathangTableMap::COL_SODIENTHOAI, $sodienthoai, $comparison);
+    }
+
+    /**
      * Filter the query by a related \Model\Khachhang object
      *
      * @param \Model\Khachhang|ObjectCollection $khachhang The related object(s) to use as filter
@@ -849,23 +897,6 @@ abstract class PhieudathangQuery extends ModelCriteria
         return $this
             ->joinCtpdh($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Ctpdh', '\Model\CtpdhQuery');
-    }
-
-    /**
-     * Filter the query by a related Sanpham object
-     * using the CTPDH table as cross reference
-     *
-     * @param Sanpham $sanpham the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildPhieudathangQuery The current query, for fluid interface
-     */
-    public function filterBySanpham($sanpham, $comparison = Criteria::EQUAL)
-    {
-        return $this
-            ->useCtpdhQuery()
-            ->filterBySanpham($sanpham, $comparison)
-            ->endUse();
     }
 
     /**
