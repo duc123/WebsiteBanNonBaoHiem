@@ -16,6 +16,7 @@ use Model\QuanHuyenQuery;
 use Model\PhuongXaQuery;
 use Model\Phieudathang;
 use Model\Ctpdh;
+use Model\KhachhangQuery;
 
 class CartController extends BaseController {
 
@@ -37,6 +38,11 @@ class CartController extends BaseController {
             /* @var $sanpham \Model\Sanpham */
             $sanpham = $_SESSION['cart-items'];
         }
+        
+        if(isset($_SESSION['khachhang'])){
+            $makh = explode('|', $_SESSION['khachhang'])[0];
+            $khachhang = KhachhangQuery::create()->findPk($makh);
+        }
         $thanhpho = ThanhphoQuery::create()->find();
         $quanhuyen = QuanHuyenQuery::create()->find();
         $phuongxa = PhuongXaQuery::create()->find();
@@ -46,6 +52,11 @@ class CartController extends BaseController {
     public function dathang() {
         session_start();
         $arrayPost = filter_input_array(INPUT_POST);
+        $user = isset($_SESSION['khachhang']) ? explode('|', $_SESSION['khachhang'])[0] : null;
+        if(!isset($arrayPost['email'])){
+            $kh = KhachhangQuery::create()->findPk($user);
+            $arrayPost['email'] = $kh->getEmail();
+        }
         $sanpham = $_SESSION['cart-items'];
 
         $quanhuyen_chiphi = explode("|", $arrayPost['quan_huyen']);
@@ -59,12 +70,13 @@ class CartController extends BaseController {
             $arrayPost["chiphi"] = $quanhuyen_chiphi[1];
         }
         
-        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+        
         $phieudathang = $this->taoPhieuDatHang($arrayPost,$user);
         $this->taoCTPDH($sanpham, $phieudathang);
 
 
-        $success = $this->send_mail($arrayPost);
+        //$success = $this->send_mail($arrayPost);
+        $success = true;
         unset($_SESSION['cart-items']);
 
         include 'views/Cart/DatHang.php';
@@ -75,7 +87,7 @@ class CartController extends BaseController {
     private function tinhTongTien($sanpham) {
         $tongtien = 0;
         foreach ($sanpham as $sanpham) {
-            $tongtien += $sanpham->getGiasp();
+            $tongtien += $sanpham->getGiasp()*$sanpham->getSoluong();
         }
         return $tongtien;
     }
@@ -93,6 +105,7 @@ class CartController extends BaseController {
         $phieudathang->setPhuongXa($arrayPost['phuong_xa']);
         $phieudathang->setChiphi($arrayPost['chiphi']);
         $phieudathang->setTongtien($arrayPost['tongtien']);
+        $phieudathang->setSodienthoai($arrayPost['dtthoai']);
         $phieudathang->save();
         return $phieudathang;
     }

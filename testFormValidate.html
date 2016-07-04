@@ -1,29 +1,41 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
-        <title>Form Validation using jQuery - Demo</title>
-        <script type="text/javascript" src="/WebsiteBanHang/views/Contents/js/jquery.min.js"></script>
-        <script type="text/javascript" src="/WebsiteBanHang/views/Contents/js/jquery.validate.min.js"></script>
-        <script type="text/javascript" src="/WebsiteBanHang/views/Contents/js/my-script.js"></script>
-        <style>
-            label.error{
-                color: red;
-            }
-        </style>
+        <meta charset="utf-8">
+        <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+        <title>User Profile and layout - Bootsnipp.com</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+        
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <form id="commentForm" method="get" action="">
-            <fieldset>
-                <legend>Comment Form</legend>
-                <p>
-                    <label for="cname">Name</label>
-                    <input id="cname" name="name" type="text" minlength="2" required/>
-                </p>
-                <p>
-                    <input type="submit" value="Submit" class="submit">
-                </p>
-            </fieldset>
-        </form>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+        <div class="container">
+            <div class="row well">
+                <div class="col-md-2">
+                    <ul class="nav nav-pills nav-stacked well">
+                        <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-home"></i> Home</a></li>
+                        <li><a href="#profile" data-toggle="tab"><i class="fa fa-user" ></i> Profile</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-10 tab-content">
+                    <div id="home" class="tab-pane active">
+                        <p>Some content in home</p>
+                    </div>
+                    
+                    <div id="profile" class="tab-pane">
+                        <p>Some content in profile</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
     </body>
 </html>

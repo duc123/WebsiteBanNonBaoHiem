@@ -15,8 +15,7 @@ and open the template in the editor.
         <?php include 'views/Layout/navbar.php'; ?>
         <div class="container">
 
-            <div class="row">
-
+            <div class="row" style="margin-top: 1em">
                 <?php include 'views/Layout/nav_loaisp.php'; ?>
 
                 <div class="col-md-9">

@@ -7,6 +7,7 @@ require 'classes/setup.php';
 use Model\LoaispQuery;
 use Model\SanphamQuery;
 use Model\DanhmucQuery;
+use Model\Phanhoi;
 
 /**
  * Home Controller cho Home View
@@ -27,8 +28,8 @@ class HomeController extends BaseController {
         $trang_hien_tai = 0;
 
         session_start();
-        //thay doi thanh isset($dssanpham) khi up len host
-        if (isset($dssanpham)) {
+        //thay doi thanh !isset($_SESSION['dssanpham'])) khi up len host
+        if (!isset($_SESSION['dssanpham'])) {
             //lấy danh sách loại sản phẩm
             $_SESSION['loai_sp'] = LoaispQuery::create()->find();
             $_SESSION['danhmuc'] = DanhmucQuery::create()->find();
@@ -112,6 +113,19 @@ class HomeController extends BaseController {
 //        $sotrang = $this->so_trang(count($sanpham), self::SO_SP_1_TRANG); 
 //        $trang_sanpham = $this->Tao_sanpham_theo_trang($sotrang, $sanpham);
         include 'views/Home/Danhmuc.php';
+    }
+    
+    public function phanhoi(){
+        $post = filter_input_array(INPUT_POST);
+        $phanhoi = new Phanhoi();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $today = date('H:i:s d-m-Y');
+        $phanhoi->setNgayph($today);
+        $phanhoi->setTennguoiph($post['ten']);
+        $phanhoi->setEmail($post['email']);
+        $phanhoi->setNoidung($post['noidung']);
+        $phanhoi->save();
+        header("Location: /WebsiteBanHang/Home");
     }
 
 }

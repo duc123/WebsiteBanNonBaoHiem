@@ -4,9 +4,10 @@
 <meta name="keywords" content="safety">
 <meta name='revisit-after' content='1 days' />
 <!-- CSS Style -->
-<link href='/WebsiteBanHang/views/Contents/css/bootstrap.min.css' rel='stylesheet' type='text/css' />
+
 <link href='/WebsiteBanHang/views/Contents/css/fancybox.css' rel='stylesheet' type='text/css' />
 <link href='/WebsiteBanHang/views/Contents/css/style.css' rel='stylesheet' type='text/css' />
+<link href='/WebsiteBanHang/views/Contents/css/bootstrap.min.css' rel='stylesheet' type='text/css' />
 <link href='/WebsiteBanHang/views/Contents/css/owl.css' rel='stylesheet' type='text/css' />
 <link href='/WebsiteBanHang/views/Contents/css/owl-theme.css' rel='stylesheet' type='text/css' />
 <link rel="stylesheet" href="/WebsiteBanHang/views/Contents/css/font-awesome.css">

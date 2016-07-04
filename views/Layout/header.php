@@ -1,9 +1,9 @@
 <?php
-if (isset($_COOKIE['user']) && !isset($_SESSION['user'])) {
-    $_SESSION['user'] = $_COOKIE['user'];
+if (isset($_COOKIE['khachhang']) && !isset($_SESSION['khachhang'])) {
+    $_SESSION['khachhang'] = $_COOKIE['khachhang'];
 }
-if (isset($_SESSION['user'])) {
-    $username = explode('|', $_SESSION['user'])[1];
+if (isset($_SESSION['khachhang'])) {
+    $username = explode('|', $_SESSION['khachhang'])[1];
 }
 ?>
 <header class="header-container">
@@ -18,7 +18,7 @@ if (isset($_SESSION['user'])) {
                     <!-- Header Top Links -->
                     <div class="toplinks">
                         <div class="links">
-                            <div class="myaccount"><a title="Tài khoản" href="/account"><span class="hidden-xs" id="user"><?php echo (isset($username) ? $username : "Tài khoản"); ?></span></a></div>
+                            <div class="myaccount"><a title="Tài khoản" href="/WebsiteBanHang/Account/Profile"><span class="hidden-xs" id="user"><?php echo (isset($username) ? $username : "Tài khoản"); ?></span></a></div>
                             <div class="check"><a title="Thanh toán" href="/WebsiteBanHang/Home/Thanhtoan"><span class="hidden-xs">Thanh toán</span></a></div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@ if (isset($_SESSION['user'])) {
             </div>
             <!-- Top Cart -->
             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-                <?php if (!isset($_SESSION['user'])) { ?>
+                <?php if (!isset($_SESSION['khachhang'])) { ?>
                     <div class="signup"><a title="Đăng ký" href="/WebsiteBanHang/Account/Register"><span>Đăng ký ngay</span></a></div>
                     <span class="or"> hoặc </span>
                     <div class="login"><a id="modal_trigger" title="Đăng nhập" href="#modal"><span id="dangnhap">Đăng nhập</span></a></div>
@@ -111,7 +111,7 @@ if (isset($_SESSION['user'])) {
                         if (data.success === "error") {
                             $("#error").removeClass("hidden");
                         } else {
-                            location.reload();
+                            window.location = "/WebsiteBanHang/Home";
                         }
                     }
                 }

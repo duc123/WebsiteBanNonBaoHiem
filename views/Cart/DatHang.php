@@ -26,7 +26,7 @@ and open the template in the editor.
 
 
             <!--Body page-->
-            <div class="container">
+            <div class="container" style="margin-top: 1em">
                 <div style="text-align: center">
                     <?php if ($success) { ?>
                         <h1>Đặt hàng thành công</h1>
@@ -42,5 +42,7 @@ and open the template in the editor.
                     <!--End body page-->
                     <?php include 'views/Layout/footer.php'; ?>
                 </div>
-                </body>
-                </html>
+            </div>
+        </div>
+    </body>
+</html>

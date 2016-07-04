@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,7 +7,11 @@
 
 require 'vendor/phpmailer/phpmailer/PHPMailerAutoload.php';
 require 'classes/setup.php';
+
 use Model\LoaispQuery;
+use Model\ThanhphoQuery;
+use Model\PhuongXaQuery;
+
 //$mail = new PHPMailer();
 //$mail->isSMTP();
 //$mail->SMTPDebug = 4;
@@ -34,6 +37,7 @@ use Model\LoaispQuery;
 //    echo 'da gui thanh cong';
 //}
 
-$dm = \Model\DanhmucQuery::create()->findPk(1);
-$loais = $dm->getLoaisps()->getArrayCopy('Maloaisp');
-$sps = $loais[3];
+//$kh = Model\KhachhangQuery::create()->findPk(1);
+//$kh->setTenkh("hong duc");
+//$row = $kh->save();
+//echo $row;

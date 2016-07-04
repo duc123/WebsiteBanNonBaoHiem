@@ -77,7 +77,13 @@ and open the template in the editor.
                             }
                         },
                         InputPassWord: "required",
-                        username : "required",
+                        username : {
+                            required: true,
+                            remote:{
+                                url: "/WebsiteBanHang/controllers/check-username.php",
+                                type: "POST"
+                            }
+                        },
                         InputRePassWord: {
                             required: true,
                             equalTo: "#InputPassWord"
@@ -90,6 +96,10 @@ and open the template in the editor.
                             email: "Email phải đúng định dạng vd: example@domain.com"
                         },
                         InputPassWord: "Cần có mật khẩu để đăng nhập",
+                        username: {
+                            required: "Cần nhập username",
+                            remote: "username đã tồn tại"
+                        },
                         InputRePassWord: {
                             required: "Cần phải nhập lại mật khẩu",
                             equalTo: "Mật khẩu nhập lại phải giống mật khẩu gốc"

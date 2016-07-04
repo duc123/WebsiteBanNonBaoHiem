@@ -22,14 +22,20 @@ and open the template in the editor.
             <div class="row">
                 <div class="ch-box col-xs-6 left-col">
                     <div class="ch-box-inner">
+                        <button class="btn btn-primary" onclick="ganthongtin()">Sử dụng thông tin trong tài khoản cho thông tin giao hàng</button>
                         <form role="form" method="POST" action="/WebsiteBanHang/Cart/Dathang" id="form1">
                             <h3>Bước 1: Nhập Email</h3>
-                            <div class="form-group">
-                                <label for="email" class="mylabel">Email (shop sẽ gửi mail đơn đặt hàng theo địa chỉ email này):</label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com">
-                            </div>
+                            <?php if (!isset($_SESSION['khachhang'])) { ?>
+                                <div class="form-group">
+                                    <label for="email" class="mylabel">Email (shop sẽ gửi mail đơn đặt hàng theo địa chỉ email này):</label>
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com">
+                                </div>
+                            <?php } else { ?>
+                                <p>Sử dụng email tài khoản nếu muốn đổi email xin hãy đăng xuất</p>
+                            <?php } ?>
                             <hr>
                             <h3>Bước 2: Nhập thông tin giao hàng</h3>
+
                             <div class="form-group">
                                 <label for="ten" class="mylabel">Tên người nhận:</label>
                                 <input type="text" id="ten" name="ten" class="form-control" placeholder="Tên người nhận">
@@ -139,7 +145,7 @@ and open the template in the editor.
                                 if (isset($sanpham)) {
                                     $tongtien = 0;
                                     foreach ($sanpham as $sanpham) {
-                                        $tongtien += $sanpham->getGiasp();
+                                        $tongtien += $sanpham->getGiasp() * $sanpham->getSoluong();
                                         ?>
                                         <tr>
                                             <td><?php echo $sanpham->getTensanpham(); ?></td>
@@ -210,11 +216,21 @@ and open the template in the editor.
             }
 
             $("#thanhtien").html(parseInt($("#tamtinh").html()) + ".000");
+
+            function ganthongtin() {
+                <?php if (isset($khachhang)) { ?>
+                    $("#ten").val('<?php echo $khachhang->getTenkh(); ?>');
+                    $("#diachi").val('<?php echo $khachhang->getDiachi(); ?>');
+                    $("#dienthoai").val('<?php echo $khachhang->getDt(); ?>');
+                <?php } else { ?>
+                    alert("Chức năng chỉ tác dụng khi đăng nhập và chỉnh thông tin");
+                <?php } ?>
+            }
         </script>
         <?php if (!isset($sanpham)) { ?>
             <script type="text/javascript">
                 var timeout = window.setTimeout(function () {
-                    window.location = "http://localhost/WebsiteBanHang/Home";
+                    window.location = "/WebsiteBanHang/Home";
                 }, 3000);
                 $(document).ready(function () {
                     $("#timeout").removeClass("hidden");
