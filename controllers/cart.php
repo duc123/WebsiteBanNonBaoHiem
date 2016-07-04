@@ -58,8 +58,9 @@ class CartController extends BaseController {
         } else {
             $arrayPost["chiphi"] = $quanhuyen_chiphi[1];
         }
-
-        $phieudathang = $this->taoPhieuDatHang($arrayPost);
+        
+        $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+        $phieudathang = $this->taoPhieuDatHang($arrayPost,$user);
         $this->taoCTPDH($sanpham, $phieudathang);
 
 
@@ -69,16 +70,7 @@ class CartController extends BaseController {
         include 'views/Cart/DatHang.php';
     }
 
-//    private function filter_keys_array($array, $key_array) {
-//        $keys = array_keys($array);
-//        foreach ($key_array as $key_array) {
-//            if (in_array($key_array, $keys)) {
-//                continue;
-//            }
-//            $array[$key_array] = '';
-//        }
-//        return $array;
-//    }
+
 
     private function tinhTongTien($sanpham) {
         $tongtien = 0;
@@ -88,12 +80,13 @@ class CartController extends BaseController {
         return $tongtien;
     }
 
-    private function taoPhieuDatHang($arrayPost) {
+    private function taoPhieuDatHang($arrayPost,$user) {
         $phieudathang = new Phieudathang();
         $phieudathang->setTennguoinhan($arrayPost['ten']);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $today = date('H:i:s d-m-Y');
         $phieudathang->setNgaylap($today);
+        $phieudathang->setKhachhangMakh($user);
         $phieudathang->setDiachi($arrayPost['diachi']);
         $phieudathang->setThanhpho($arrayPost['thanhpho']);
         $phieudathang->setQuanHuyen($arrayPost['quan_huyen']);

@@ -12,9 +12,6 @@ and open the template in the editor.
     </head>
     <body>
         <?php include 'views/Layout/header.php'; ?>
-        <?php if (isset($error)) { ?>
-            <p style="color: red">Đăng nhập sai hãy đăng nhập lại</p>
-        <?php } ?>
         <div class="container" style="margin-top: 1em">
             <div class="row">
                 <div class="col-lg-6">
@@ -24,7 +21,14 @@ and open the template in the editor.
                         <div class="form-group">
                             <label for="email">Nhập Email</label>
                             <div class="input-group">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Nhập Username</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                             </div>
                         </div>
@@ -73,6 +77,7 @@ and open the template in the editor.
                             }
                         },
                         InputPassWord: "required",
+                        username : "required",
                         InputRePassWord: {
                             required: true,
                             equalTo: "#InputPassWord"

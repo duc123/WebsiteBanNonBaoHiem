@@ -14,6 +14,7 @@ class AccountController extends BaseController {
         } else {
             $kh = new Khachhang();
             $kh->setEmail($post['InputEmail']);
+            $kh->setUsername($post['usename']);
             $pass = $post['InputPassWord'];
             $hash = password_hash($pass, PASSWORD_DEFAULT);
             $kh->setPassword($hash);
@@ -43,10 +44,10 @@ class AccountController extends BaseController {
             if(empty($error)){
                 session_start();
                 $array["success"] = true;
-                $_SESSION['user-email'] = $post['email'];
+                $_SESSION['user'] = $khach;
                 if(isset($post['remember'])){
-                        $_COOKIE['user-email'] = $post['email'];
-                        
+                        $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
+                        setcookie('user',$khach->getMakh() .'|'. $khach->getUsername(),time()+60*60,'/',$domain,FALSE);
                     }
             }else{
                 $array["success"] = false;
@@ -58,7 +59,9 @@ class AccountController extends BaseController {
     
     public function logout(){
         session_start();
-        unset($_SESSION['user-email']);
+        setcookie('user','',  time()-3600,'/');
+        unset($_SESSION['user']);
+        unset($_COOKIE['user']);
         header('Location: /WebsiteBanHang/Home');
     }
 

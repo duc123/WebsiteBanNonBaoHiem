@@ -26,9 +26,9 @@ $danh_muc = $_SESSION['danhmuc'];
 
 
 
-                                    <li class="level0 level-top parent">
+                                    <!--<li class="level0 level-top parent">
                                         <a href="/gioi-thieu" class="level-top"> <span>Giới thiệu</span> </a>
-                                    </li>
+                                    </li>-->
 
                                     <?php
                                     if (isset($danh_muc)) {
@@ -41,9 +41,10 @@ $danh_muc = $_SESSION['danhmuc'];
                                         }
                                     }
                                     ?>
-                                    <li class="level0 level-top parent">
+                                            
+                                    <!--<li class="level0 level-top parent">
                                         <a href="/lien-he" class="level-top"> <span>Liên hệ</span> </a>
-                                    </li>
+                                    </li>-->
 
 
                                 </ul>
@@ -62,7 +63,7 @@ $danh_muc = $_SESSION['danhmuc'];
 
 
 
-                <li class="level0"><a href="/WebsiteBanHang/Home/Gioithieu/"><span>Giới thiệu</span> </a>
+                <!--<li class="level0"><a href="/WebsiteBanHang/Home/Gioithieu/"><span>Giới thiệu</span> </a>-->
 
                     <?php
                     if (isset($danh_muc)) {
@@ -75,7 +76,7 @@ $danh_muc = $_SESSION['danhmuc'];
                     ?>
                     
 
-                <li class="level0"><a href="/WebsiteBanHang/Home/Lienhe"><span>Liên hệ</span> </a>
+                <!--<li class="level0"><a href="/WebsiteBanHang/Home/Lienhe"><span>Liên hệ</span> </a>-->
 
 
 

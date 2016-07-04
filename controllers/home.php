@@ -28,7 +28,7 @@ class HomeController extends BaseController {
 
         session_start();
         //thay doi thanh isset($dssanpham) khi up len host
-        if (true) {
+        if (isset($dssanpham)) {
             //lấy danh sách loại sản phẩm
             $_SESSION['loai_sp'] = LoaispQuery::create()->find();
             $_SESSION['danhmuc'] = DanhmucQuery::create()->find();

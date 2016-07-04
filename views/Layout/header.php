@@ -1,3 +1,11 @@
+<?php
+if (isset($_COOKIE['user']) && !isset($_SESSION['user'])) {
+    $_SESSION['user'] = $_COOKIE['user'];
+}
+if (isset($_SESSION['user'])) {
+    $username = explode('|', $_SESSION['user'])[1];
+}
+?>
 <header class="header-container">
     <div class="header-top">
         <div class="container">
@@ -10,7 +18,7 @@
                     <!-- Header Top Links -->
                     <div class="toplinks">
                         <div class="links">
-                            <div class="myaccount"><a title="Tài khoản" href="/account"><span class="hidden-xs" id="user">Tài khoản</span></a></div>
+                            <div class="myaccount"><a title="Tài khoản" href="/account"><span class="hidden-xs" id="user"><?php echo (isset($username) ? $username : "Tài khoản"); ?></span></a></div>
                             <div class="check"><a title="Thanh toán" href="/WebsiteBanHang/Home/Thanhtoan"><span class="hidden-xs">Thanh toán</span></a></div>
                         </div>
                     </div>
@@ -38,10 +46,9 @@
             </div>
             <!-- Top Cart -->
             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
-
-                <div class="signup"><a title="Đăng ký" href="/WebsiteBanHang/Account/Register"><span>Đăng ký ngay</span></a></div>
-                <span class="or"> hoặc </span>
-                <?php if (!isset($_SESSION['user-email'])) { ?>
+                <?php if (!isset($_SESSION['user'])) { ?>
+                    <div class="signup"><a title="Đăng ký" href="/WebsiteBanHang/Account/Register"><span>Đăng ký ngay</span></a></div>
+                    <span class="or"> hoặc </span>
                     <div class="login"><a id="modal_trigger" title="Đăng nhập" href="#modal"><span id="dangnhap">Đăng nhập</span></a></div>
                 <?php } else { ?>
                     <div class="login"><a title="Đăng xuất" href="/WebsiteBanHang/Account/Logout"><span id="dangxuat">Đăng xuất</span></a></div>
@@ -80,7 +87,7 @@
                             <div class="one_half last"><a href="javascript:;" id="submit" class="btn_popup btn_red">Login</a></div>
                         </div>
                     </form>
-                    
+
                 </div>
 
             </section>
@@ -96,14 +103,14 @@
         $("#submit").click(function () {
             $("#formAjax").ajaxSubmit({
                 dataType: 'json',
-                success: function(data){
+                success: function (data) {
                     //alert(data.success);
-                    if(data.success === false){
+                    if (data.success === false) {
                         $("#invalid").removeClass("hidden");
-                    }else{
-                        if(data.success === "error"){
+                    } else {
+                        if (data.success === "error") {
                             $("#error").removeClass("hidden");
-                        }else{
+                        } else {
                             location.reload();
                         }
                     }
